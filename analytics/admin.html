@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Visitor Analytics Dashboard</title>
+
+<!-- Font: Space Grotesk (display) + Poppins (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<style>
+  /* ============================================================
+     NEO BRUTALISM THEME
+     Warna utama: kuning, pink, cyan, putih, border hitam tebal
+  ============================================================ */
+  :root{
+    --yellow:#FFE94A;
+    --pink:#FF6FB5;
+    --cyan:#5BE7FF;
+    --white:#FFFFFF;
+    --black:#0B0B0B;
+    --bg:#F5F3EE;
+    --shadow: 6px 6px 0 var(--black);
+    --shadow-sm: 4px 4px 0 var(--black);
+    --radius: 14px;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    font-family:'Poppins', sans-serif;
+    color:var(--black);
+    padding-bottom:60px;
+  }
+
+  h1,h2,h3,.brand,.stat-value{
+    font-family:'Space Grotesk', sans-serif;
+  }
+
+  /* ---------- Layout helpers ---------- */
+  .container{
+    max-width:1280px;
+    margin:0 auto;
+    padding:0 20px;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    background:var(--black);
+    color:var(--white);
+    padding:14px 0;
+    border-bottom:4px solid var(--black);
+  }
+  .topbar .container{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .brand{
+    font-weight:700;
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .brand svg{ width:28px; height:28px; }
+  .status-pill{
+    background:var(--cyan);
+    color:var(--black);
+    border:3px solid var(--white);
+    border-radius:999px;
+    padding:6px 14px;
+    font-weight:600;
+    font-size:0.85rem;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .status-dot{
+    width:9px;height:9px;border-radius:50%;background:#1a9b3a;
+    box-shadow:0 0 0 0 rgba(26,155,58,.6);
+    animation:pulse 1.6s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(26,155,58,.6);}
+    70%{box-shadow:0 0 0 7px rgba(26,155,58,0);}
+    100%{box-shadow:0 0 0 0 rgba(26,155,58,0);}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:46px 0 26px;
+  }
+  .hero h1{
+    font-size:clamp(1.8rem, 4vw, 2.9rem);
+    margin:0 0 8px;
+    line-height:1.05;
+  }
+  .hero p{
+    margin:0;
+    font-weight:500;
+    opacity:.75;
+  }
+  .hero .accent{
+    background:var(--pink);
+    padding:2px 10px;
+    border:3px solid var(--black);
+    border-radius:8px;
+    display:inline-block;
+  }
+
+  /* ---------- Login gate ---------- */
+  #loginGate{
+    max-width:420px;
+    margin:80px auto;
+    background:var(--white);
+    border:4px solid var(--black);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:32px;
+    text-align:center;
+  }
+  #loginGate h2{ margin-top:0; }
+  #loginGate input{
+    width:100%;
+    padding:12px 14px;
+    border:3px solid var(--black);
+    border-radius:10px;
+    font-family:'Poppins', sans-serif;
+    font-size:1rem;
+    margin:14px 0;
+  }
+  #loginError{
+    color:#c20000;
+    font-weight:600;
+    font-size:0.85rem;
+    min-height:18px;
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    border:3px solid var(--black);
+    border-radius:10px;
+    padding:10px 18px;
+    background:var(--white);
+    box-shadow:var(--shadow-sm);
+    cursor:pointer;
+    transition:transform .12s ease;
+    font-size:0.9rem;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .btn:hover{ transform:translate(-2px,-2px); }
+  .btn:active{ transform:translate(0,0); box-shadow:2px 2px 0 var(--black); }
+  .btn-yellow{ background:var(--yellow); }
+  .btn-pink{ background:var(--pink); }
+  .btn-cyan{ background:var(--cyan); }
+  .btn-danger{ background:#FF5252; color:var(--white); }
+  .btn svg{ width:16px; height:16px; }
+
+  .toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin:18px 0 26px;
+  }
+
+  /* ---------- Stat cards ---------- */
+  .stats-grid{
+    display:grid;
+    grid-template-columns:repeat(6, 1fr);
+    gap:18px;
+    margin-bottom:34px;
+  }
+  @media (max-width:1100px){ .stats-grid{ grid-template-columns:repeat(3,1fr); } }
+  @media (max-width:640px){ .stats-grid{ grid-template-columns:repeat(2,1fr); } }
+
+  .stat-card{
+    border:3.5px solid var(--black);
+    border-radius:var(--radius);
+    padding:18px;
+    box-shadow:var(--shadow-sm);
+    position:relative;
+    overflow:hidden;
+  }
+  .stat-card .label{
+    font-size:0.78rem;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    opacity:.75;
+  }
+  .stat-value{
+    font-size:2rem;
+    font-weight:700;
+    margin-top:6px;
+  }
+  .stat-card svg{
+    position:absolute;
+    right:12px; top:12px;
+    width:22px; height:22px;
+    opacity:.55;
+  }
+  .c-yellow{ background:var(--yellow); }
+  .c-pink{ background:var(--pink); }
+  .c-cyan{ background:var(--cyan); }
+  .c-white{ background:var(--white); }
+
+  /* ---------- Section box ---------- */
+  .box{
+    background:var(--white);
+    border:3.5px solid var(--black);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:22px;
+    margin-bottom:30px;
+  }
+  .box h2{
+    margin:0 0 18px;
+    font-size:1.25rem;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .box h2 .tag{
+    background:var(--black);
+    color:var(--white);
+    font-size:0.65rem;
+    padding:3px 8px;
+    border-radius:6px;
+    font-family:'Poppins',sans-serif;
+    font-weight:600;
+  }
+
+  /* ---------- Charts grid ---------- */
+  .charts-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr;
+    gap:24px;
+  }
+  @media (max-width:900px){ .charts-grid{ grid-template-columns:1fr; } }
+  .charts-grid-3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+    margin-top:24px;
+  }
+  @media (max-width:900px){ .charts-grid-3{ grid-template-columns:1fr; } }
+  .chart-wrap{ position:relative; height:260px; }
+
+  /* ---------- Table controls ---------- */
+  .table-controls{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:16px;
+    align-items:center;
+  }
+  .table-controls input[type=text]{
+    flex:1;
+    min-width:180px;
+    padding:10px 14px;
+    border:3px solid var(--black);
+    border-radius:10px;
+    font-family:'Poppins',sans-serif;
+  }
+  .filter-pills{ display:flex; gap:8px; flex-wrap:wrap; }
+  .pill{
+    border:3px solid var(--black);
+    border-radius:999px;
+    padding:7px 14px;
+    font-weight:600;
+    font-size:0.8rem;
+    cursor:pointer;
+    background:var(--white);
+  }
+  .pill.active{ background:var(--cyan); }
+
+  /* ---------- Table ---------- */
+  .table-wrap{ overflow-x:auto; border:3px solid var(--black); border-radius:10px; }
+  table{ width:100%; border-collapse:collapse; min-width:820px; }
+  thead th{
+    background:var(--black);
+    color:var(--white);
+    text-align:left;
+    padding:12px 14px;
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+    position:sticky; top:0;
+  }
+  tbody td{
+    padding:11px 14px;
+    border-bottom:2px solid #ECE9E1;
+    font-size:0.88rem;
+  }
+  tbody tr:nth-child(even){ background:#FAF8F3; }
+  tbody tr:hover{ background:#FFF6D8; }
+  .badge{
+    display:inline-block;
+    padding:2px 9px;
+    border:2px solid var(--black);
+    border-radius:6px;
+    font-size:0.72rem;
+    font-weight:700;
+  }
+  .badge-mobile{ background:var(--pink); }
+  .badge-desktop{ background:var(--cyan); }
+
+  .empty-row td{
+    text-align:center;
+    padding:30px;
+    opacity:.6;
+    font-style:italic;
+  }
+
+  footer{
+    text-align:center;
+    font-size:0.8rem;
+    opacity:.6;
+    margin-top:40px;
+  }
+
+  /* scrollbar tipis biar konsisten */
+  ::-webkit-scrollbar{ height:10px; width:10px; }
+  ::-webkit-scrollbar-thumb{ background:var(--black); border-radius:8px; }
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     GATE LOGIN: minta x-admin-key sebelum bisa lihat dashboard
+========================================================= -->
+<div id="loginGate">
+  <h2>🔒 Admin Access</h2>
+  <p style="opacity:.7;font-size:.9rem;">Masukkan Admin Key untuk membuka dashboard analytics.</p>
+  <input type="password" id="adminKeyInput" placeholder="Masukkan x-admin-key..." />
+  <button class="btn btn-yellow" style="width:100%;justify-content:center;" onclick="tryLogin()">Masuk Dashboard</button>
+  <div id="loginError"></div>
+</div>
+
+<!-- =========================================================
+     DASHBOARD UTAMA (disembunyikan sampai key valid)
+========================================================= -->
+<div id="dashboard" style="display:none;">
+
+  <div class="topbar">
+    <div class="container">
+      <div class="brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>
+        Portfolio Analytics
+      </div>
+      <div class="status-pill"><span class="status-dot"></span> Live • Auto-refresh 5s</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="hero">
+      <h1>Visitor <span class="accent">Analytics</span> Dashboard</h1>
+      <p>Pantau pengunjung website portfolio kamu secara real-time.</p>
+    </div>
+
+    <div class="toolbar">
+      <button class="btn btn-cyan" onclick="loadStats()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+        Refresh
+      </button>
+      <button class="btn btn-yellow" onclick="exportJSON()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+        Export JSON
+      </button>
+      <button class="btn btn-pink" onclick="exportCSV()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+        Export CSV
+      </button>
+      <button class="btn btn-danger" onclick="clearData()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+        Clear Data
+      </button>
+    </div>
+
+    <!-- ===================== STAT CARDS ===================== -->
+    <div class="stats-grid">
+      <div class="stat-card c-yellow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        <div class="label">Total Visitor</div>
+        <div class="stat-value" id="statTotal">0</div>
+      </div>
+      <div class="stat-card c-pink">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <div class="label">Visitor Hari Ini</div>
+        <div class="stat-value" id="statToday">0</div>
+      </div>
+      <div class="stat-card c-cyan">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <div class="label">Online Sekarang</div>
+        <div class="stat-value" id="statOnline">0</div>
+      </div>
+      <div class="stat-card c-white">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+        <div class="label">Mobile</div>
+        <div class="stat-value" id="statMobile">0</div>
+      </div>
+      <div class="stat-card c-yellow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        <div class="label">Desktop</div>
+        <div class="stat-value" id="statDesktop">0</div>
+      </div>
+      <div class="stat-card c-pink">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20 15 15 0 010-20z"/></svg>
+        <div class="label">Negara</div>
+        <div class="stat-value" id="statCountries">0</div>
+      </div>
+    </div>
+
+    <!-- ===================== CHARTS ===================== -->
+    <div class="box">
+      <h2>📈 Visitor per Hari <span class="tag">7 hari terakhir</span></h2>
+      <div class="chart-wrap"><canvas id="chartDaily"></canvas></div>
+    </div>
+
+    <div class="charts-grid-3">
+      <div class="box">
+        <h2>🌐 Browser</h2>
+        <div class="chart-wrap" style="height:220px;"><canvas id="chartBrowser"></canvas></div>
+      </div>
+      <div class="box">
+        <h2>📱 Device</h2>
+        <div class="chart-wrap" style="height:220px;"><canvas id="chartDevice"></canvas></div>
+      </div>
+      <div class="box">
+        <h2>💻 OS</h2>
+        <div class="chart-wrap" style="height:220px;"><canvas id="chartOS"></canvas></div>
+      </div>
+    </div>
+
+    <!-- ===================== TABLE ===================== -->
+    <div class="box">
+      <h2>📋 Daftar Visitor</h2>
+
+      <div class="table-controls">
+        <input type="text" id="searchInput" placeholder="Cari IP, negara, kota, browser, halaman..." oninput="renderTable()" />
+        <div class="filter-pills" id="filterPills">
+          <div class="pill active" data-filter="all" onclick="setFilter('all')">Semua</div>
+          <div class="pill" data-filter="today" onclick="setFilter('today')">Hari ini</div>
+          <div class="pill" data-filter="week" onclick="setFilter('week')">Minggu ini</div>
+          <div class="pill" data-filter="month" onclick="setFilter('month')">Bulan ini</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Waktu</th>
+              <th>IP</th>
+              <th>Negara</th>
+              <th>Kota</th>
+              <th>Browser</th>
+              <th>OS</th>
+              <th>Device</th>
+              <th>Halaman</th>
+            </tr>
+          </thead>
+          <tbody id="visitorTableBody">
+            <tr class="empty-row"><td colspan="8">Memuat data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer>Portfolio Analytics Dashboard — Neo Brutalism Theme</footer>
+  </div>
+</div>
+
+<script>
+  /* =====================================================================
+     ADMIN.HTML - Logic Dashboard
+     Semua data diambil dari endpoint GET /api/stats (butuh x-admin-key)
+  ===================================================================== */
+
+  let ADMIN_KEY = localStorage.getItem('admin_key') || '';
+  let currentStats = null;
+  let currentFilter = 'all';
+  let refreshTimer = null;
+
+  // Chart.js instances (disimpan supaya bisa di-destroy sebelum re-render)
+  let chartDaily, chartBrowser, chartDevice, chartOS;
+
+  // Palet warna neo-brutalism untuk dipakai di chart
+  const PALETTE = ['#FFE94A', '#FF6FB5', '#5BE7FF', '#0B0B0B', '#9DEB6A', '#FFA94A', '#B98CFF'];
+
+  // ---------------------------------------------------------------------
+  // LOGIN GATE
+  // ---------------------------------------------------------------------
+  function tryLogin(){
+    const val = document.getElementById('adminKeyInput').value.trim();
+    if(!val){
+      document.getElementById('loginError').textContent = 'Admin key tidak boleh kosong.';
+      return;
+    }
+    ADMIN_KEY = val;
+    // langsung tes ke /api/stats untuk validasi key
+    loadStats(true);
+  }
+
+  function showDashboard(){
+    document.getElementById('loginGate').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    localStorage.setItem('admin_key', ADMIN_KEY);
+    startAutoRefresh();
+  }
+
+  function showLoginError(msg){
+    document.getElementById('loginError').textContent = msg;
+  }
+
+  // ---------------------------------------------------------------------
+  // FETCH STATS dari backend
+  // ---------------------------------------------------------------------
+  async function loadStats(isLoginAttempt){
+    try{
+      const res = await fetch('/api/stats', {
+        headers: { 'x-admin-key': ADMIN_KEY }
+      });
+
+      if(res.status === 401){
+        if(isLoginAttempt) showLoginError('Admin key salah. Coba lagi.');
+        else {
+          // key tersimpan ternyata sudah tidak valid -> minta login ulang
+          document.getElementById('dashboard').style.display = 'none';
+          document.getElementById('loginGate').style.display = 'block';
+          showLoginError('Sesi admin tidak valid, silakan masuk kembali.');
+        }
+        return;
+      }
+
+      const data = await res.json();
+      currentStats = data;
+
+      if(isLoginAttempt) showDashboard();
+
+      renderStatCards(data);
+      renderCharts(data);
+      renderTable();
+    }catch(err){
+      console.error('Gagal mengambil /api/stats:', err);
+      if(isLoginAttempt) showLoginError('Gagal terhubung ke server.');
+    }
+  }
+
+  function startAutoRefresh(){
+    if(refreshTimer) clearInterval(refreshTimer);
+    refreshTimer = setInterval(() => loadStats(false), 5000); // auto-refresh 5 detik
+  }
+
+  // ---------------------------------------------------------------------
+  // RENDER: Stat cards
+  // ---------------------------------------------------------------------
+  function renderStatCards(data){
+    document.getElementById('statTotal').textContent = data.totalVisitor ?? 0;
+    document.getElementById('statToday').textContent = data.visitorHariIni ?? 0;
+    document.getElementById('statOnline').textContent = data.onlineSekarang ?? 0;
+    document.getElementById('statMobile').textContent = data.totalMobile ?? 0;
+    document.getElementById('statDesktop').textContent = data.totalDesktop ?? 0;
+    document.getElementById('statCountries').textContent = Object.keys(data.negaraList || {}).length;
+  }
+
+  // ---------------------------------------------------------------------
+  // RENDER: Charts (Chart.js)
+  // ---------------------------------------------------------------------
+  function renderCharts(data){
+    // ---- Line chart: visitor per hari ----
+    const dailyLabels = Object.keys(data.visitorPerHari || {});
+    const dailyValues = Object.values(data.visitorPerHari || {});
+
+    if(chartDaily) chartDaily.destroy();
+    chartDaily = new Chart(document.getElementById('chartDaily'), {
+      type: 'line',
+      data: {
+        labels: dailyLabels,
+        datasets: [{
+          label: 'Visitor',
+          data: dailyValues,
+          borderColor: '#0B0B0B',
+          backgroundColor: 'rgba(255, 233, 74, 0.5)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.25,
+          pointBackgroundColor: '#FF6FB5',
+          pointBorderColor: '#0B0B0B',
+          pointBorderWidth: 2,
+          pointRadius: 5,
+        }]
+      },
+      options: {
+        responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{ display:false } },
+        scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } }
+      }
+    });
+
+    // ---- Doughnut: Browser ----
+    renderDoughnut('chartBrowser', data.browserList, (c) => chartBrowser = c, (c) => chartBrowser = null);
+    chartBrowser = makeDoughnut('chartBrowser', data.browserList);
+
+    // ---- Doughnut: Device ----
+    chartDevice = makeDoughnut('chartDevice', { Mobile: data.totalMobile, Desktop: data.totalDesktop });
+
+    // ---- Doughnut: OS ----
+    chartOS = makeDoughnut('chartOS', data.osList);
+  }
+
+  // Helper generik untuk membuat doughnut chart dari object {label: count}
+  function makeDoughnut(canvasId, dataObj){
+    const existing = Chart.getChart(canvasId);
+    if(existing) existing.destroy();
+
+    const labels = Object.keys(dataObj || {});
+    const values = Object.values(dataObj || {});
+
+    return new Chart(document.getElementById(canvasId), {
+      type: 'doughnut',
+      data: {
+        labels,
+        datasets: [{
+          data: values,
+          backgroundColor: PALETTE,
+          borderColor: '#0B0B0B',
+          borderWidth: 2.5,
+        }]
+      },
+      options: {
+        responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{ position:'bottom', labels:{ boxWidth:12, font:{ size:11 } } } }
+      }
+    });
+  }
+  // (fungsi renderDoughnut lama tidak terpakai, dibiarkan no-op aman)
+  function renderDoughnut(){}
+
+  // ---------------------------------------------------------------------
+  // RENDER: Table visitor (dengan search + filter)
+  // ---------------------------------------------------------------------
+  function setFilter(filter){
+    currentFilter = filter;
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    document.querySelector(`.pill[data-filter="${filter}"]`).classList.add('active');
+    renderTable();
+  }
+
+  function getFilteredVisitors(){
+    if(!currentStats || !currentStats.visitors) return [];
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const startOfWeek = new Date(startOfToday);
+    startOfWeek.setDate(startOfToday.getDate() - startOfToday.getDay());
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    let list = currentStats.visitors;
+
+    if(currentFilter === 'today') list = list.filter(v => new Date(v.timestamp) >= startOfToday);
+    else if(currentFilter === 'week') list = list.filter(v => new Date(v.timestamp) >= startOfWeek);
+    else if(currentFilter === 'month') list = list.filter(v => new Date(v.timestamp) >= startOfMonth);
+
+    const q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+    if(q){
+      list = list.filter(v =>
+        (v.ip||'').toLowerCase().includes(q) ||
+        (v.negara||'').toLowerCase().includes(q) ||
+        (v.kota||'').toLowerCase().includes(q) ||
+        (v.browser||'').toLowerCase().includes(q) ||
+        (v.os||'').toLowerCase().includes(q) ||
+        (v.halaman||'').toLowerCase().includes(q)
+      );
+    }
+
+    return list;
+  }
+
+  function renderTable(){
+    const tbody = document.getElementById('visitorTableBody');
+    const list = getFilteredVisitors();
+
+    if(!list.length){
+      tbody.innerHTML = `<tr class="empty-row"><td colspan="8">Belum ada data visitor.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = list.map(v => `
+      <tr>
+        <td>${formatTime(v.timestamp)}</td>
+        <td>${escapeHtml(v.ip)}</td>
+        <td>${escapeHtml(v.negara)}</td>
+        <td>${escapeHtml(v.kota)}</td>
+        <td>${escapeHtml(v.browser)} ${escapeHtml(v.browserVersion||'')}</td>
+        <td>${escapeHtml(v.os)}</td>
+        <td><span class="badge ${v.isMobile ? 'badge-mobile' : 'badge-desktop'}">${v.isMobile ? 'Mobile' : 'Desktop'}</span></td>
+        <td>${escapeHtml(v.halaman)}</td>
+      </tr>
+    `).join('');
+  }
+
+  function formatTime(iso){
+    try{
+      const d = new Date(iso);
+      return d.toLocaleString('id-ID', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+    }catch(e){ return iso; }
+  }
+
+  function escapeHtml(str){
+    if(str === undefined || str === null) return '';
+    return String(str)
+      .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+  }
+
+  // ---------------------------------------------------------------------
+  // EXPORT & CLEAR
+  // ---------------------------------------------------------------------
+  function exportJSON(){
+    if(!currentStats) return;
+    downloadFile(JSON.stringify(currentStats.visitors, null, 2), 'visitors.json', 'application/json');
+  }
+
+  function exportCSV(){
+    if(!currentStats || !currentStats.visitors.length) return;
+    const headers = ['timestamp','ip','negara','kota','region','browser','browserVersion','os','device','language','screenResolution','halaman','referrer'];
+    const rows = currentStats.visitors.map(v => headers.map(h => `"${(v[h] ?? '').toString().replaceAll('"','""')}"`).join(','));
+    const csv = [headers.join(','), ...rows].join('\\n');
+    downloadFile(csv, 'visitors.csv', 'text/csv');
+  }
+
+  function downloadFile(content, filename, mime){
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  async function clearData(){
+    if(!confirm('Yakin ingin menghapus SEMUA data visitor? Tindakan ini tidak bisa dibatalkan.')) return;
+    try{
+      const res = await fetch('/api/clear', {
+        method: 'DELETE',
+        headers: { 'x-admin-key': ADMIN_KEY }
+      });
+      if(res.status === 401){
+        alert('Admin key tidak valid.');
+        return;
+      }
+      await loadStats(false);
+      alert('Data visitor berhasil dihapus.');
+    }catch(err){
+      console.error(err);
+      alert('Gagal menghapus data.');
+    }
+  }
+
+  // ---------------------------------------------------------------------
+  // INIT: jika ada key tersimpan, coba langsung login otomatis
+  // ---------------------------------------------------------------------
+  window.addEventListener('DOMContentLoaded', () => {
+    if(ADMIN_KEY){
+      loadStats(true);
+    }
+    // submit dengan tombol Enter di input login
+    document.getElementById('adminKeyInput').addEventListener('keydown', (e) => {
+      if(e.key === 'Enter') tryLogin();
+    });
+  });
+</script>
+
+</body>
+</html>
