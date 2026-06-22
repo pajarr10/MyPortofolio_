@@ -1,23 +1,4 @@
-/**
- * =====================================================================
- *  lib/storage.js
- * =====================================================================
- *  Abstraksi penyimpanan data visitor. Mendukung 2 mode otomatis:
- *
- *  1. UPSTASH REDIS (direkomendasikan untuk Vercel)
- *     Aktif kalau env UPSTASH_REDIS_REST_URL & UPSTASH_REDIS_REST_TOKEN
- *     di-set. Data disimpan permanen di Redis, jadi AMAN dipakai di
- *     Vercel serverless (filesystem Vercel read-only & tidak persist,
- *     tapi Redis di luar itu jadi datanya tetap nyimpen).
- *
- *  2. FILE JSON LOKAL (fallback untuk Termux / VPS / dev lokal)
- *     Aktif otomatis kalau env Redis di atas TIDAK di-set.
- *     Data disimpan di analytics/data/visit.json seperti biasa.
- *
- *  Route di server.js tidak perlu tahu backend mana yang dipakai -
- *  tinggal panggil readVisits() / writeVisits() seperti biasa.
- * =====================================================================
- */
+#kau siapa kampang
 
 const fs = require("fs");
 const path = require("path");
