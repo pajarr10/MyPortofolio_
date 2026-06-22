@@ -1,4 +1,4 @@
-#kau siapa kampang
+//kau siapa kampang
 
 const fs = require("fs");
 const path = require("path");
