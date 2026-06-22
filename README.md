@@ -276,8 +276,8 @@ git push origin main
 ```
  ╔════════════════════════════════════════════════════════╗
  ║                                                        ║
- ║   dibuat dengan susah payah oleh Muhammad Fajar        ║
- ║   pelajar SMP yang suka motret dan iseng ngoding       ║
+ ║   dibuat dengan susah payah oleh pajar        ║
+ ║   pelajar esempeh yang suka motret dan iseng ngoding       ║
  ║                                                        ║
  ║   kalau suka, kasih bintang di repo-nya ya :)          ║
  ║                                                        ║
