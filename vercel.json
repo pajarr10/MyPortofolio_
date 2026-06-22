@@ -5,11 +5,14 @@
     { "src": "index.html", "use": "@vercel/static" },
     { "src": "style.css", "use": "@vercel/static" },
     { "src": "script.js", "use": "@vercel/static" },
-    { "src": "analytics-tracker.js", "use": "@vercel/static" }
+    { "src": "analytics-tracker.js", "use": "@vercel/static" },
+    { "src": "bio-link/index.html", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "analytics/server.js" },
     { "src": "/admin.html", "dest": "analytics/server.js" },
+    { "src": "/bio-link", "dest": "/bio-link/index.html" },
+    { "src": "/bio-link/(.*)", "dest": "/bio-link/$1" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
 }
