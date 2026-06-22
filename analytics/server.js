@@ -61,7 +61,7 @@ const PROJECT_ROOT = path.join(__dirname, "..");
 // -----------------------------------------------------------------------
 // Middleware global
 // -----------------------------------------------------------------------
-app.use(express.json());
+app.use(express.json({ limit: "50kb" }));
 
 // Serve file statis portfolio (index.html, style.css, script.js, dll)
 // dari ROOT project. File-file ini TIDAK disentuh sama sekali oleh
@@ -86,17 +86,20 @@ function getClientIp(req) {
 
 function isLocalIp(ip) {
   if (!ip) return true;
-  return (
+  if (
     ip === "127.0.0.1" ||
     ip === "::1" ||
     ip === "0.0.0.0" ||
     ip.startsWith("192.168.") ||
-    ip.startsWith("10.") ||
-    ip.startsWith("172.16.") ||
-    ip.startsWith("172.17.") ||
-    ip.startsWith("172.18.") ||
-    ip.startsWith("172.19.")
-  );
+    ip.startsWith("10.")
+  ) return true;
+  // RFC1918: 172.16.0.0 – 172.31.255.255
+  const m = ip.match(/^172\.(\d+)\./);
+  if (m) {
+    const octet = parseInt(m[1], 10);
+    if (octet >= 16 && octet <= 31) return true;
+  }
+  return false;
 }
 
 // -----------------------------------------------------------------------
@@ -201,11 +204,11 @@ app.post("/api/visit", async (req, res) => {
     const { browser, browserVersion, os, device, isMobile } = parseUserAgent(ua);
 
     const body = req.body || {};
-    const page = body.page || req.headers["referer"] || "/";
-    const referrer = body.referrer || "Direct";
+    const page = (body.page || req.headers["referer"] || "/").slice(0, 300);
+    const referrer = (body.referrer || "Direct").slice(0, 300);
     const language =
-      body.language || (req.headers["accept-language"] || "Unknown").split(",")[0];
-    const screenResolution = body.screenResolution || "Unknown";
+      (body.language || (req.headers["accept-language"] || "Unknown").split(",")[0]).slice(0, 50);
+    const screenResolution = (body.screenResolution || "Unknown").slice(0, 30);
 
     const visits = await storage.readVisits();
     const now = Date.now();
