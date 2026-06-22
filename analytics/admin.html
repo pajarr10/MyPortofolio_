@@ -345,7 +345,7 @@
 <div id="loginGate">
   <h2>🔒 Admin Access</h2>
   <p style="opacity:.7;font-size:.9rem;">Masukkan Admin Key untuk membuka dashboard analytics.</p>
-  <input type="password" id="adminKeyInput" placeholder="Masukkan x-admin-key..." />
+  <input type="password" id="adminKeyInput" placeholder="Masukin key anjgg" />
   <button class="btn btn-yellow" style="width:100%;justify-content:center;" onclick="tryLogin()">Masuk Dashboard</button>
   <div id="loginError"></div>
 </div>
@@ -537,7 +537,7 @@
       });
 
       if(res.status === 401){
-        if(isLoginAttempt) showLoginError('Admin key salah. Coba lagi.');
+        if(isLoginAttempt) showLoginError('Admin key salah. Lu siapa cok, bukan Pajar pasti.');
         else {
           // key tersimpan ternyata sudah tidak valid -> minta login ulang
           document.getElementById('dashboard').style.display = 'none';
