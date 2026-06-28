@@ -1,13 +1,696 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>404</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Parameter Tidak Valid</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0a0c10;
+            --panel-bg: rgba(16, 20, 28, 0.7);
+            --panel-border: rgba(255, 68, 68, 0.15);
+            --accent-red: #ff4444;
+            --accent-red-glow: rgba(255, 68, 68, 0.4);
+            --accent-cyan: #00f3ff;
+            --text-main: #e2e8f0;
+            --text-muted: #748393;
+            --text-dark: #475569;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 24px;
+        }
+
+        /* Subtle Cyber Grid & Scanline Background Effect */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 68, 68, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 68, 68, 0.015) 1px, transparent 1px);
+            background-size: 30px 30px;
+            background-position: center;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 30%, rgba(5, 6, 8, 0.9) 100%),
+                        radial-gradient(circle at center, rgba(255, 68, 68, 0.04) 0%, transparent 60%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Scanline Animation */
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 68, 68, 0.08);
+            opacity: 0.7;
+            z-index: 3;
+            pointer-events: none;
+            animation: scan 6s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: -10px; }
+            100% { top: 100%; }
+        }
+
+        /* Main Container */
+        .error-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 620px;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 
+                        inset 0 0 20px rgba(255, 68, 68, 0.02);
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cyber Security Icon */
+        .icon-wrapper {
+            position: relative;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 24px;
+            color: var(--accent-red);
+            filter: drop-shadow(0 0 10px rgba(255, 68, 68, 0.3));
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { filter: drop-shadow(0 0 8px rgba(255, 68, 68, 0.2)); opacity: 0.9; }
+            50% { filter: drop-shadow(0 0 16px rgba(255, 68, 68, 0.5)); opacity: 1; }
+        }
+
+        /* Glitch 404 Text */
+        .glitch-wrapper {
+            margin-bottom: 16px;
+        }
+
+        .glitch {
+            font-family: var(--font-mono);
+            font-size: 84px;
+            font-weight: 700;
+            line-height: 1;
+            position: relative;
+            color: var(--text-main);
+            letter-spacing: -2px;
+            animation: glitch-skew 1s infinite linear alternate-reverse;
+        }
+
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--accent-cyan);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 var(--accent-red), 0 2px var(--accent-cyan);
+            clip: rect(85px, 450px, 140px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(31px, 9999px, 94px, 0); transform: skew(0.3deg); }
+            5% { clip: rect(112px, 9999px, 76px, 0); transform: skew(0.1deg); }
+            10% { clip: rect(85px, 9999px, 5px, 0); transform: skew(-0.2deg); }
+            15% { clip: rect(27px, 9999px, 115px, 0); transform: skew(0.4deg); }
+            20% { clip: rect(64px, 9999px, 32px, 0); transform: skew(-0.1deg); }
+            25% { clip: rect(139px, 9999px, 81px, 0); transform: skew(0.2deg); }
+            30% { clip: rect(5px, 9999px, 142px, 0); transform: skew(-0.4deg); }
+            35% { clip: rect(98px, 9999px, 64px, 0); transform: skew(0.3deg); }
+            40% { clip: rect(43px, 9999px, 19px, 0); transform: skew(0.1deg); }
+            45% { clip: rect(119px, 9999px, 131px, 0); transform: skew(-0.3deg); }
+            50% { clip: rect(16px, 9999px, 92px, 0); transform: skew(0.5deg); }
+            55% { clip: rect(78px, 9999px, 114px, 0); transform: skew(-0.1deg); }
+            60% { clip: rect(132px, 9999px, 47px, 0); transform: skew(0.2deg); }
+            65% { clip: rect(54px, 9999px, 123px, 0); transform: skew(-0.2deg); }
+            70% { clip: rect(91px, 9999px, 8px, 0); transform: skew(0.4deg); }
+            75% { clip: rect(23px, 9999px, 139px, 0); transform: skew(-0.5deg); }
+            80% { clip: rect(105px, 9999px, 53px, 0); transform: skew(0.1deg); }
+            85% { clip: rect(12px, 9999px, 77px, 0); transform: skew(-0.3deg); }
+            90% { clip: rect(141px, 9999px, 119px, 0); transform: skew(0.2deg); }
+            95% { clip: rect(67px, 9999px, 36px, 0); transform: skew(-0.1deg); }
+            100% { clip: rect(39px, 9999px, 102px, 0); transform: skew(0.3deg); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip: rect(76px, 9999px, 116px, 0); transform: skew(-0.2deg); }
+            5% { clip: rect(22px, 9999px, 61px, 0); transform: skew(0.4deg); }
+            10% { clip: rect(134px, 9999px, 142px, 0); transform: skew(-0.1deg); }
+            15% { clip: rect(9px, 9999px, 83px, 0); transform: skew(0.3deg); }
+            20% { clip: rect(53px, 9999px, 121px, 0); transform: skew(-0.4deg); }
+            25% { clip: rect(118px, 9999px, 14px, 0); transform: skew(0.2deg); }
+            30% { clip: rect(82px, 9999px, 97px, 0); transform: skew(-0.3deg); }
+            35% { clip: rect(41px, 9999px, 136px, 0); transform: skew(0.5deg); }
+            40% { clip: rect(107px, 9999px, 49px, 0); transform: skew(-0.2deg); }
+            45% { clip: rect(14px, 9999px, 113px, 0); transform: skew(0.1deg); }
+            50% { clip: rect(129px, 9999px, 68px, 0); transform: skew(-0.5deg); }
+            55% { clip: rect(61px, 9999px, 126px, 0); transform: skew(0.3deg); }
+            60% { clip: rect(35px, 9999px, 92px, 0); transform: skew(-0.1deg); }
+            65% { clip: rect(112px, 9999px, 18px, 0); transform: skew(0.4deg); }
+            70% { clip: rect(74px, 9999px, 141px, 0); transform: skew(-0.3deg); }
+            75% { clip: rect(19px, 9999px, 57px, 0); transform: skew(0.2deg); }
+            80% { clip: rect(138px, 9999px, 104px, 0); transform: skew(-0.4deg); }
+            85% { clip: rect(47px, 9999px, 89px, 0); transform: skew(0.1deg); }
+            90% { clip: rect(102px, 9999px, 123px, 0); transform: skew(-0.2deg); }
+            95% { clip: rect(29px, 9999px, 44px, 0); transform: skew(0.3deg); }
+            100% { clip: rect(116px, 9999px, 79px, 0); transform: skew(-0.1deg); }
+        }
+
+        @keyframes glitch-skew {
+            0% { transform: skew(1deg); }
+            10% { transform: skew(-2deg); }
+            20% { transform: skew(3deg); }
+            30% { transform: skew(0deg); }
+            40% { transform: skew(-1deg); }
+            50% { transform: skew(2deg); }
+            60% { transform: skew(-3deg); }
+            70% { transform: skew(1deg); }
+            80% { transform: skew(0deg); }
+            90% { transform: skew(-1deg); }
+            100% { transform: skew(2deg); }
+        }
+
+        /* Typography styling */
+        h1 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+            font-family: var(--font-mono);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        h1::before, h1::after {
+            content: "]";
+            color: var(--accent-red);
+            font-weight: 400;
+        }
+        h1::before { content: "["; }
+
+        .desc-highlight {
+            font-size: 15px;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .desc-warning {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            line-height: 1.6;
+            padding: 12px 16px;
+            background: rgba(255, 68, 68, 0.03);
+            border-left: 2px solid var(--accent-red);
+            border-radius: 4px;
+            text-align: left;
+        }
+
+        .desc-instruction {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+
+        /* Interactive Countdown Area */
+        .countdown-container {
+            margin-bottom: 28px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px dashed rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .countdown-text {
+            font-size: 13px;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            text-align: left;
+        }
+
+        .countdown-timer {
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            border: 1px solid var(--text-dark);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cancel:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+            background: rgba(255, 68, 68, 0.05);
+        }
+
+        /* Action Buttons */
+        .button-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: var(--font-sans);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            outline: none;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background-color: var(--accent-red);
+            color: #ffffff;
+            border: none;
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.25);
+        }
+
+        .btn-primary:hover {
+            background-color: #ff5c5c;
+            box-shadow: 0 4px 20px var(--accent-red-glow);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Footer Metadata */
+        .metadata-footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-dark);
+        }
+
+        .metadata-item {
+            display: flex;
+            gap: 6px;
+        }
+
+        .metadata-value {
+            color: var(--text-muted);
+        }
+
+        /* Custom Audio/Visual Terminal Boot Animation overlay */
+        .terminal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #050608;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            color: var(--accent-red);
+            pointer-events: none;
+            animation: fadeOutOverlay 0.6s ease forwards;
+            animation-delay: 0.8s;
+        }
+
+        .terminal-text {
+            overflow: hidden;
+            border-right: 2px solid var(--accent-red);
+            white-space: nowrap;
+            animation: typing 0.6s steps(20, end), blink-caret 0.4s step-end infinite alternate;
+            max-width: fit-content;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent-red); }
+        }
+
+        @keyframes fadeOutOverlay {
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        /* Responsive */
+        @media (max-width: 580px) {
+            .error-container {
+                padding: 30px 20px;
+            }
+            .glitch {
+                font-size: 64px;
+            }
+            .countdown-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .btn-cancel {
+                align-self: flex-end;
+            }
+            .button-group {
+                flex-direction: column;
+                width: 100%;
+            }
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>404</h1>
-  <p>lu ngapain jir 🗿</p>
-  <p>halaman atau parameter yg lu masukin salah.</p>
-  <a href="/">balik ke home</a>
+
+    <div class="scanline"></div>
+
+    <!-- Terminal Boot Animation Overlay -->
+    <div class="terminal-overlay">
+        <div class="terminal-text">SECURE_CORE_INIT: ERR_PARAM_INVALID...</div>
+    </div>
+
+    <div class="error-container">
+        <!-- Shield Warning Icon via Inline SVG -->
+        <div class="icon-wrapper">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+        </div>
+
+        <!-- Glitch 404 Display -->
+        <div class="glitch-wrapper">
+            <div class="glitch" data-text="404">404</div>
+        </div>
+
+        <!-- Warning Headers & Messages -->
+        <h1>404 - Parameter Tidak Valid</h1>
+        
+        <p class="desc-highlight">Kami mendeteksi permintaan atau parameter yang tidak valid.</p>
+        
+        <p class="desc-warning">
+            Jika aktivitas mencurigakan terus berlanjut, akses dari alamat IP Anda dapat dibatasi sementara hingga 24 jam sesuai kebijakan keamanan.
+        </p>
+        
+        <p class="desc-instruction">Pastikan URL yang Anda akses benar.</p>
+
+        <!-- Countdown Panel -->
+        <div class="countdown-container" id="countdownPanel">
+            <div class="countdown-text">
+                Mengalihkan ke beranda secara otomatis dalam <span class="countdown-timer" id="timer">10</span> detik...
+            </div>
+            <button class="btn-cancel" id="cancelBtn" onclick="cancelRedirect()">BATALKAN</button>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="button-group">
+            <a href="/" class="btn btn-primary" onclick="playClickSound()">
+                <!-- Home Icon SVG -->
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Kembali ke Beranda
+            </a>
+            <button class="btn btn-secondary" onclick="reloadPage()">
+                <!-- Reload Icon SVG -->
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                Reload Halaman
+            </button>
+        </div>
+
+        <!-- Dynamic Security Footprint Metadata -->
+        <div class="metadata-footer">
+            <div class="metadata-item">
+                <span>Request ID:</span>
+                <span class="metadata-value" id="reqId">FETCHING...</span>
+            </div>
+            <div class="metadata-item">
+                <span>Timestamp:</span>
+                <span class="metadata-value" id="timestamp">TIMESTAMP_ERR</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Web Audio API Synthesizer for Pure Cyber Sound Effects without external files
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // Cyber diagnostic tone sequence on startup
+        function playBootSound() {
+            try {
+                initAudio();
+                if (!audioCtx) return;
+
+                const now = audioCtx.currentTime;
+                
+                // First beep (low warning)
+                const osc1 = audioCtx.createOscillator();
+                const gain1 = audioCtx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(220, now);
+                osc1.frequency.exponentialRampToValueAtTime(110, now + 0.15);
+                gain1.gain.setValueAtTime(0.15, now);
+                gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                osc1.connect(gain1);
+                gain1.connect(audioCtx.destination);
+                osc1.start(now);
+                osc1.stop(now + 0.15);
+
+                // Second sharp beep (tech indicator)
+                const osc2 = audioCtx.createOscillator();
+                const gain2 = audioCtx.createGain();
+                osc2.type = 'triangle';
+                osc2.frequency.setValueAtTime(880, now + 0.1);
+                gain2.gain.setValueAtTime(0.1, now + 0.1);
+                gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc2.connect(gain2);
+                gain2.connect(audioCtx.destination);
+                osc2.start(now + 0.1);
+                osc2.stop(now + 0.3);
+            } catch (e) {
+                console.log("Audio play delayed or blocked by browser policy");
+            }
+        }
+
+        // Generic click tick tone
+        function playClickSound() {
+            try {
+                initAudio();
+                if (!audioCtx) return;
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(600, now);
+                gain.gain.setValueAtTime(0.05, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            } catch(e){}
+        }
+
+        // Trigger boot sound safely when interaction happens or document finishes loading
+        window.addEventListener('DOMContentLoaded', () => {
+            // Document loaded initialization
+            generateMetadata();
+            startCountdown();
+            
+            // Try playing boot sound (might be blocked until click, which is handled gracefully)
+            setTimeout(playBootSound, 100);
+        });
+
+        // Fallback to trigger audio upon any document click (ambient initialization)
+        document.body.addEventListener('click', () => {
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }, { once: true });
+
+
+        // Generate Random Request ID and Real-time Localized Timestamp
+        function generateMetadata() {
+            // Generate standard cyber looking secure random ID pattern
+            const chars = 'ABCDEF0123456789';
+            let reqId = 'REQ-';
+            for (let i = 0; i < 4; i++) {
+                for(let j=0; j<4; j++) {
+                    reqId += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                if(i < 3) reqId += '-';
+            }
+            document.getElementById('reqId').innerText = reqId;
+
+            // Generate Precise ISO-like Local Timestamp
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            document.getElementById('timestamp').innerText = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} (LOCAL_TZ)`;
+        }
+
+        // Countdown Redirect System
+        let countdownValue = 10;
+        let countdownInterval = null;
+
+        function startCountdown() {
+            const timerEl = document.getElementById('timer');
+            countdownInterval = setInterval(() => {
+                countdownValue--;
+                timerEl.innerText = countdownValue;
+                
+                // Subtle ticking tick audio on countdown
+                if(countdownValue <= 3) {
+                    playClickSound();
+                }
+
+                if (countdownValue <= 0) {
+                    clearInterval(countdownInterval);
+                    window.location.href = '/';
+                }
+            }, 1000);
+        }
+
+        function cancelRedirect() {
+            playClickSound();
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                const panel = document.getElementById('countdownPanel');
+                panel.style.transition = 'all 0.3s ease';
+                panel.style.opacity = '0.5';
+                panel.style.borderColor = 'rgba(255, 255, 255, 0.02)';
+                panel.innerHTML = '<div class="countdown-text" style="color: var(--text-dark);"><span style="color: var(--accent-red);">●</span> Pengalihan otomatis dibatalkan oleh pengguna.</div>';
+            }
+        }
+
+        function reloadPage() {
+            playClickSound();
+            setTimeout(() => {
+                window.location.reload();
+            }, 100);
+        }
+    </script>
 </body>
 </html>
