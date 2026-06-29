@@ -1,515 +1,579 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYSTEM INFECTED - CRITICAL FAILURE</title>
-    <!-- Tailwind CSS untuk styling cepat dan responsif -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>⚠️ SYSTEM LOCKDOWN - MALWARE ACTIVE</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:bold,italic&family=Share+Tech+Mono&display=swap');
-
-        body {
-            background-color: #00ff00;
-            font-family: 'Share Tech Mono', monospace;
-            overflow: hidden;
+        /* ===== RESET & GLOBAL ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none !important; /* Hilangkan cursor */
             user-select: none;
-            cursor: not-allowed;
         }
 
-        /* Scanline & Noise CRT Effect */
-        .crt::after {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            aspect-ratio: auto;
-            background-size: 100% 4px, 6px 100%;
+        body {
+            background: #00ff00;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            animation: flickerBg 0.1s infinite alternate;
+        }
+
+        @keyframes flickerBg {
+            0% { background-color: #00ff00; }
+            50% { background-color: #00cc00; }
+            100% { background-color: #00ff66; }
+        }
+
+        /* ===== SCANLINE + NOISE ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 2px, transparent 2px, transparent 4px);
+            pointer-events: none;
             z-index: 9999;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC45IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiBmaWx0ZXI9InVybCgjZikiIG9wYWNpdHk9IjAuMjUiIC8+PC9zdmc+');
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 9998;
+            background-size: 200px 200px;
+        }
+
+        /* ===== GLITCH UTAMA ===== */
+        .main-glitch {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            text-align: center;
+            color: #ff0000;
+            font-size: clamp(2.5rem, 10vw, 5rem);
+            font-weight: 900;
+            text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 2px 2px 0 #000;
+            animation: glitchText 0.7s infinite step-end;
+            letter-spacing: 4px;
+            background: rgba(0,0,0,0.8);
+            padding: 20px 40px;
+            border: 4px solid #ff0000;
+            box-shadow: 0 0 50px #ff0000;
             pointer-events: none;
         }
 
-        /* Glitchy Green Background Flicker */
-        @keyframes green-flicker {
-            0%, 100% { background-color: #031e03; }
-            5% { background-color: #083c08; }
-            10% { background-color: #001100; }
-            15% { background-color: #0a4d0a; }
-            20% { background-color: #021a02; }
-            25% { background-color: #0f610f; }
-            30% { background-color: #021e02; }
-            35% { background-color: #127512; }
-            40% { background-color: #000c00; }
-            50% { background-color: #0a460a; }
-            55% { background-color: #011401; }
-            65% { background-color: #158315; }
-            70% { background-color: #031c03; }
-            80% { background-color: #00ff00; } /* Neon Flash */
-            81% { background-color: #021e02; }
-            90% { background-color: #042904; }
+        @keyframes glitchText {
+            0% { transform: translate(-50%, -50%) skew(0deg) scale(1); }
+            20% { transform: translate(-50%, -50%) skew(4deg) scale(1.03); }
+            40% { transform: translate(-50%, -50%) skew(-4deg) scale(0.97); }
+            60% { transform: translate(-50%, -50%) skew(2deg) scale(1.01); }
+            80% { transform: translate(-50%, -50%) skew(-2deg) scale(0.99); }
+            100% { transform: translate(-50%, -50%) skew(0deg) scale(1); }
         }
 
-        .virus-bg {
-            animation: green-flicker 0.4s infinite;
+        /* ===== SISTEM INFO ===== */
+        .sys-info {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            color: #00ff00;
+            background: rgba(0,0,0,0.85);
+            padding: 15px 25px;
+            font-size: 14px;
+            border: 2px solid #00ff00;
+            z-index: 200;
+            font-family: 'Courier New', monospace;
+            line-height: 1.8;
+            text-shadow: 0 0 8px #00ff00;
+            max-width: 350px;
+            pointer-events: none;
         }
 
-        /* Horizontal Glitch Text */
-        .glitch-text {
-            position: relative;
-            animation: text-glitch 1s infinite;
-        }
+        .sys-info span { color: #ff00ff; }
 
-        @keyframes text-glitch {
-            0%, 100% { transform: translate(0); text-shadow: none; }
-            20% { transform: translate(-2px, 2px); text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
-            40% { transform: translate(-2px, -2px); text-shadow: -2px 0 #ff0000, 2px 0 #0000ff; }
-            60% { transform: translate(2px, 2px); text-shadow: 2px 0 #00ff00, -2px 0 #ff00ff; }
-            80% { transform: translate(2px, -2px); text-shadow: -2px 0 #ffff00, 2px 0 #00ffff; }
-        }
-
-        /* XP Style Dialog Box */
-        .xp-window {
-            position: absolute;
-            width: 310px;
-            background-color: #ece9d8;
-            border: 3px solid #0054e3;
-            border-top-left-radius: 7px;
-            border-top-right-radius: 7px;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.6);
-            font-family: 'Tahoma', 'Segoe UI', Arial, sans-serif;
-            font-size: 12px;
-            z-index: 50;
-            pointer-events: auto;
-        }
-
-        .xp-titlebar {
-            background: linear-gradient(to bottom, #0058e6 0%, #3a93ff 10%, #0054e3 50%, #002ca5 100%);
-            color: white;
+        /* ===== COUNTDOWN ===== */
+        .countdown {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 200;
+            background: rgba(0,0,0,0.9);
+            color: #ff0000;
+            font-size: 3rem;
             font-weight: bold;
-            padding: 4px 8px;
+            padding: 15px 35px;
+            border: 3px solid #ff0000;
+            box-shadow: 0 0 40px #ff0000;
+            text-shadow: 0 0 25px #ff0000;
+            pointer-events: none;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* ===== SCAN BAR ===== */
+        .scan-container {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 200;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .scan-label {
+            color: #00ff00;
+            font-size: 14px;
+            background: rgba(0,0,0,0.7);
+            padding: 4px 16px;
+            border: 1px solid #00ff00;
+            text-shadow: 0 0 8px #00ff00;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+
+        .scan-bar {
+            width: 400px;
+            max-width: 80vw;
+            height: 22px;
+            background: #111;
+            border: 3px solid #00ff00;
+            overflow: hidden;
+            box-shadow: 0 0 25px #00ff00;
+            margin: 0 auto;
+        }
+
+        .scan-bar .fill {
+            width: 0%;
+            height: 100%;
+            background: #00ff00;
+            animation: scanLoop 2s infinite linear;
+        }
+
+        @keyframes scanLoop {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        /* ===== WINDOWS XP POPUP ===== */
+        .win-popup {
+            position: fixed;
+            min-width: 200px;
+            max-width: 320px;
+            background: #e0e0e0;
+            border: 2px solid #0055aa;
+            border-radius: 4px;
+            box-shadow: 4px 4px 14px rgba(0,0,0,0.8);
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            z-index: 500;
+            animation: shakeFade 0.35s ease-out;
+            opacity: 0.95;
+            pointer-events: none;
+            transition: opacity 0.4s;
+        }
+
+        .win-popup .title-bar {
+            background: linear-gradient(180deg, #0055aa 0%, #003388 100%);
+            color: white;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: bold;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #002ca5;
-            text-shadow: 1px 1px 1px #000;
+            border-radius: 4px 4px 0 0;
         }
 
-        .xp-close-btn {
-            background: linear-gradient(to bottom, #e04343 0%, #f27171 20%, #cc1c1c 60%, #990000 100%);
-            border: 1px solid #7c0000;
-            color: white;
+        .win-popup .title-bar .close {
+            background: #c0c0c0;
+            border: 1px solid #777;
+            color: black;
             font-weight: bold;
-            font-size: 11px;
             width: 18px;
             height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 2px;
-            cursor: pointer;
-            box-shadow: inset 1px 1px 1px rgba(255,255,255,0.4);
-        }
-
-        .xp-close-btn:active {
-            background: #990000;
-        }
-
-        .xp-content {
-            padding: 12px;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            color: #000;
-        }
-
-        .xp-buttons {
-            padding: 8px;
-            display: flex;
-            justify-content: center;
-            background-color: #f1efe2;
-            border-top: 1px solid #d8d2b4;
-        }
-
-        .xp-btn {
-            background: linear-gradient(to bottom, #ffffff 0%, #eaeaea 50%, #dcdcdc 100%);
-            border: 1px solid #003c74;
-            border-radius: 3px;
-            padding: 4px 16px;
-            min-width: 75px;
             text-align: center;
-            box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-            cursor: pointer;
-            outline: none;
+            line-height: 16px;
+            font-size: 12px;
+            border-radius: 2px;
         }
 
-        .xp-btn:hover {
-            background: linear-gradient(to bottom, #ffffff 0%, #f2f2f2 50%, #e5e5e5 100%);
-            border-color: #0054e3;
+        .win-popup .content {
+            padding: 12px 16px 16px 16px;
+            font-size: 13px;
+            color: #000;
+            background: #f0f0f0;
+            border-radius: 0 0 4px 4px;
+            border: 1px solid #aaa;
+            border-top: none;
         }
 
-        .xp-btn:active {
-            background: #e5e5e5;
-            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
+        .win-popup .content .btn-ok {
+            margin-top: 12px;
+            background: #d4d4d4;
+            border: 2px solid #888;
+            border-top-color: #fff;
+            border-left-color: #fff;
+            padding: 4px 24px;
+            font-weight: bold;
+            font-size: 12px;
+            border-radius: 2px;
+            float: right;
+            cursor: default;
         }
 
-        /* Popup Shaking Animation */
-        @keyframes window-shake {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            10% { transform: translate(-3px, 2px) rotate(-0.5deg); }
-            20% { transform: translate(2px, -3px) rotate(0.5deg); }
-            30% { transform: translate(-1px, 3px) rotate(0deg); }
-            40% { transform: translate(3px, 1px) rotate(1deg); }
-            50% { transform: translate(-2px, -1px) rotate(-0.5deg); }
-            60% { transform: translate(1px, 2px) rotate(0deg); }
-            70% { transform: translate(-3px, -2px) rotate(0.5deg); }
-            80% { transform: translate(2px, 3px) rotate(-1deg); }
-            90% { transform: translate(-1px, -1px) rotate(0deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
+        @keyframes shakeFade {
+            0% { transform: translate(0,0) scale(0.7); opacity: 0; }
+            30% { transform: translate(-12px,8px) scale(1.03); }
+            60% { transform: translate(10px,-6px) scale(0.97); }
+            100% { transform: translate(0,0) scale(1); opacity: 1; }
         }
 
-        .shaking {
-            animation: window-shake 0.35s infinite;
-        }
-
-        /* Custom XP ProgressBar */
-        .xp-progress-container {
-            width: 100%;
-            height: 18px;
-            background-color: #ffffff;
-            border: 1px solid #959595;
-            padding: 1px;
-            display: flex;
-            gap: 2px;
-            overflow: hidden;
-        }
-
-        .xp-progress-block {
-            width: 10px;
-            height: 100%;
-            background: linear-gradient(to right, #38ca38 0%, #209620 50%, #0d5d0d 100%);
-            border-radius: 1px;
-        }
-
-        /* Invisible full-screen interaction catcher */
-        #interaction-catcher {
+        /* ===== OVERLAY GELAP ===== */
+        .dark-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: transparent;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.2);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* ===== START OVERLAY ===== */
+        #startOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
             z-index: 99999;
-            cursor: not-allowed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+        }
+
+        #startOverlay h1 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            color: #ff0000;
+            text-shadow: 0 0 40px #ff0000;
+            margin-bottom: 20px;
+        }
+
+        #startOverlay p {
+            color: #aaa;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        #startOverlay .start-btn {
+            background: #ff0000;
+            border: none;
+            padding: 18px 60px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 0 50px #ff0000;
+            transition: 0.2s;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        #startOverlay .start-btn:hover {
+            transform: scale(1.06);
+            background: #cc0000;
+        }
+
+        /* ===== RESPONSIF ===== */
+        @media (max-width: 600px) {
+            .sys-info { font-size: 11px; padding: 10px 15px; left: 10px; bottom: 10px; max-width: 200px; }
+            .countdown { font-size: 2rem; padding: 10px 20px; bottom: 10px; right: 10px; }
+            .scan-bar { width: 90vw; }
+            .main-glitch { font-size: 2rem; padding: 15px 20px; }
         }
     </style>
 </head>
-<body class="crt w-screen h-screen virus-bg select-none flex flex-col justify-between p-4 relative" id="body-container">
+<body>
 
-    <!-- INVISIBLE INTERACTION CATCHER FOR LOUD AUDIO -->
-    <div id="interaction-catcher"></div>
+    <!-- ===== START OVERLAY ===== -->
+    <div id="startOverlay">
+        <h1>⚠️ SISTEM TERINFEKSI ⚠️</h1>
+        <p>Klik tombol di bawah untuk memulai simulasi virus.<br>
+        <span style="color:#666; font-size:0.9rem;">* Audio akan diputar otomatis</span></p>
+        <button class="start-btn" id="startBtn">▶ MULAI VIRUS</button>
+    </div>
 
-    <!-- AUDIO ELEMENT (ONLY mWaz.mp3) -->
-    <audio id="malware-audio" loop preload="auto">
-        <source src="https://c.termai.cc/a164/mWaz.mp3" type="audio/mpeg">
-    </audio>
+    <!-- ===== KONTEN UTAMA ===== -->
+    <div id="mainContent" style="display:none;">
 
-    <!-- HEADER: COUNTDOWN & STATUS -->
-    <header class="w-full flex justify-between items-center z-40 bg-black/85 border-2 border-red-600 p-3 rounded text-red-500">
-        <div class="flex items-center gap-2">
-            <span class="w-3 h-3 rounded-full bg-red-600 animate-ping"></span>
-            <span class="font-bold tracking-widest text-xs md:text-sm">STATUS: SYSTEM MELTDOWN ACTIVE</span>
-        </div>
-        <div class="text-right">
-            <span class="text-[9px] uppercase block text-gray-400">Crash & Redirect in:</span>
-            <span id="countdown" class="text-xl md:text-2xl font-black text-red-400 font-mono">05:00</span>
-        </div>
-    </header>
+        <!-- Glitch utama -->
+        <div class="main-glitch" id="mainGlitch">SYSTEM INFECTED - TOTAL FAILURE</div>
 
-    <!-- MAIN CENTER BRAND: YOU ARE AN IDIOT -->
-    <main class="flex-grow flex flex-col justify-center items-center text-center z-30 pointer-events-none">
-        <div class="bg-black/90 border-4 border-green-500 p-6 md:p-10 max-w-xl rounded-xl shadow-[0_0_50px_rgba(0,255,0,0.5)]">
-            <h1 class="text-4xl md:text-6xl font-extrabold text-red-600 glitch-text tracking-tight mb-4">
-                YOU ARE AN IDIOT!
-            </h1>
-            <p class="text-lg md:text-xl text-green-400 font-bold mb-6 tracking-wide uppercase">
-                SYSTEM INFECTED - TOTAL FAILURE
-            </p>
+        <!-- Info sistem -->
+        <div class="sys-info" id="sysInfo">
+            <span>IP:</span> <span id="ip">192.168.1.1</span><br>
+            <span>Browser:</span> <span id="browser">Chrome</span><br>
+            <span>OS:</span> <span id="os">Windows XP</span><br>
+            <span>Screen:</span> <span id="screen">1920x1080</span><br>
+            <span>Language:</span> <span id="lang">id-ID</span><br>
+            <span>Uptime:</span> <span id="uptime">0s</span>
+        </div>
 
-            <!-- Custom XP style blinking progress bar -->
-            <div class="w-full max-w-md mx-auto mb-6 bg-gray-900 p-2 border-2 border-green-500 rounded">
-                <div class="text-left text-xs text-green-500 mb-1">DOWNLOAD COMPLETE: INFECTING REGISTRY...</div>
-                <div class="xp-progress-container" id="bar-container">
-                    <!-- Dinamis terisi via JS -->
-                </div>
-            </div>
+        <!-- Countdown -->
+        <div class="countdown" id="countdown">10</div>
 
-            <!-- ASCII ART -->
-            <pre class="text-[7px] md:text-[9px] text-green-500 leading-none select-none font-bold">
- 💀  SYSTEM OVERRIDE  💀
-  _      _      _      _ 
- ( )    ( )    ( )    ( )
-  X      X      X      X 
- / \    / \    / \    / \
-☣️ TR0J4N_H0RS3_DET3CT3D ☣️
-            </pre>
+        <!-- Scan bar -->
+        <div class="scan-container">
+            <div class="scan-label">🔍 Scanning system files...</div>
+            <div class="scan-bar"><div class="fill"></div></div>
         </div>
-    </main>
 
-    <!-- SYSTEM INFORMATION BAR (AUTO DETECT) -->
-    <footer class="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 bg-black/90 border-2 border-green-500 p-3 rounded text-[11px] text-green-400 z-40">
-        <div>
-            <span class="text-gray-500 block uppercase font-bold">Target IP Address</span>
-            <span id="sys-ip">Resolving...</span>
-        </div>
-        <div>
-            <span class="text-gray-500 block uppercase font-bold">Operation System</span>
-            <span id="sys-os">Detecting OS...</span>
-        </div>
-        <div>
-            <span class="text-gray-500 block uppercase font-bold">User Browser</span>
-            <span id="sys-browser">Detecting...</span>
-        </div>
-        <div>
-            <span class="text-gray-500 block uppercase font-bold">Screen Resolution</span>
-            <span id="sys-screen">0x0</span>
-        </div>
-        <div>
-            <span class="text-gray-500 block uppercase font-bold">Current Lang</span>
-            <span id="sys-lang">Unknown</span>
-        </div>
-        <div>
-            <span class="text-gray-500 block uppercase font-bold">Live Counter</span>
-            <span id="sys-time">00:00:00</span>
-        </div>
-    </footer>
-
-    <!-- AREA UNTUK POPUP DINAMIS -->
-    <div id="window-container" class="absolute inset-0 pointer-events-none overflow-hidden z-40"></div>
+        <!-- Overlay gelap -->
+        <div class="dark-overlay"></div>
+    </div>
 
     <script>
-        const container = document.getElementById('window-container');
-        const audio = document.getElementById('malware-audio');
-        const countdownEl = document.getElementById('countdown');
-        const interactionCatcher = document.getElementById('interaction-catcher');
-        
-        let activeWindows = 0;
-        const maxWindows = 25;
-        let countdownTimer = 300; // 5 Menit (300 Detik)
-        let audioStarted = false;
+        (function() {
+            // ===== AUDIO =====
+            const audio = new Audio('https://c.termai.cc/a164/mWaz.mp3');
+            audio.loop = false;
+            audio.volume = 0.5;
 
-        // Variasi Payload Popup Windows XP
-        const popupPayloads = [
-            {
-                title: "Virus Detected!",
-                icon: "⚠️",
-                text: "Trojan-Horse.Win32.Idiot.a successfully embedded into kernel.",
-                btnText: "Help Me!"
-            },
-            {
-                title: "System Error 0x00000F4",
-                icon: "❌",
-                text: "lu ngapain broo😭😭.",
-                btnText: "Ignore"
-            },
-            {
-                title: "Memory Corrupted",
-                icon: "💾",
-                text: "Physical dump of memory in progress... Don't panic.",
-                btnText: "Dump"
-            },
-            {
-                title: "Registry Broken",
-                icon: "⚙️",
-                text: "Your registry key HKEY_LOCAL_MACHINE is permanently deleted.",
-                btnText: "OK"
-            },
-            {
-                title: "Access Denied",
-                icon: "⛔",
-                text: "Access to partition C:\\ is forbidden by the unknown guest.",
-                btnText: "Authorize"
-            },
-            {
-                title: "Security Breach",
-                icon: "🔥",
-                text: "Incoming connection from 666.666.666.666 accepted.",
-                btnText: "Close Port"
-            },
-            {
-                title: "YOU ARE AN IDIOT",
-                icon: "🤡",
-                text: "HA HA HA HA HA HA HA HA HA HA HA HA!",
-                btnText: "YES I AM"
+            // ===== DOM REFS =====
+            const startOverlay = document.getElementById('startOverlay');
+            const startBtn = document.getElementById('startBtn');
+            const mainContent = document.getElementById('mainContent');
+            const countdownEl = document.getElementById('countdown');
+            const mainGlitch = document.getElementById('mainGlitch');
+            const sysInfo = {
+                ip: document.getElementById('ip'),
+                browser: document.getElementById('browser'),
+                os: document.getElementById('os'),
+                screen: document.getElementById('screen'),
+                lang: document.getElementById('lang'),
+                uptime: document.getElementById('uptime')
+            };
+
+            let started = false;
+            let popupCount = 0;
+            const MAX_POPUPS = 45;
+
+            // ===== PESAN POPUP =====
+            const messages = [
+                '⚠️ Virus Detected!',
+                '❌ System Error 0x00000F4',
+                '💾 Memory Corrupted',
+                '🔧 Registry Broken',
+                '🚫 Access Denied',
+                '🔓 Security Breach',
+                '💣 Ransomware payload',
+                '📀 Hard disk failure',
+                '🛑 Critical process died',
+                '📡 Backdoor installed',
+                '💀 System32 deleted',
+                '🔥 Firewall disabled',
+                '⚡ Kernel panic',
+                '🕵️ Keylogger active'
+            ];
+
+            // ===== FAKE IP =====
+            function randomIP() {
+                return `192.168.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
             }
-        ];
 
-        // Jalankan simulasi instan saat DOM siap
-        window.onload = () => {
-            // Berusaha play langsung (akan dicoba seketika mungkin)
-            playMainAudio();
+            // ===== BUAT POPUP =====
+            function createPopup() {
+                if (popupCount >= MAX_POPUPS) return;
 
-            // Jalankan spawn popup secara berkala
-            setInterval(spawnRandomWindow, 1000);
-            
-            // Langsung penuhi layar di awal dengan 6 popup acak
-            for(let i = 0; i < 6; i++) {
-                setTimeout(spawnRandomWindow, i * 180);
+                const msg = messages[Math.floor(Math.random() * messages.length)];
+                const x = Math.random() * (window.innerWidth - 280);
+                const y = Math.random() * (window.innerHeight - 150);
+
+                const popup = document.createElement('div');
+                popup.className = 'win-popup';
+                popup.style.left = x + 'px';
+                popup.style.top = y + 'px';
+                popup.style.width = (220 + Math.random() * 100) + 'px';
+
+                popup.innerHTML = `
+                    <div class="title-bar">
+                        <span>⚠️ SYSTEM WARNING</span>
+                        <span class="close">✖</span>
+                    </div>
+                    <div class="content">
+                        <div style="margin-bottom:8px;">${msg}</div>
+                        <div class="btn-ok">OK</div>
+                    </div>
+                `;
+
+                document.body.appendChild(popup);
+                popupCount++;
+
+                setTimeout(() => {
+                    if (popup.parentNode) {
+                        popup.style.opacity = '0';
+                        setTimeout(() => {
+                            if (popup.parentNode) {
+                                popup.remove();
+                                popupCount--;
+                            }
+                        }, 500);
+                    }
+                }, 5000 + Math.random() * 4000);
             }
-        };
 
-        // Fungsi memainkan MP3 dengan volume maksimal (100% / 1.0)
-        function playMainAudio() {
-            audio.volume = 1.0; 
-            audio.play().then(() => {
-                audioStarted = true;
-                // Hilangkan catcher transparan jika audio berhasil berjalan
-                interactionCatcher.style.display = 'none';
-            }).catch(e => {
-                console.log("Menunggu aksi pertama pada layar untuk membunyikan audio...");
-            });
-        }
-
-        // Tangkap event interaksi super sensitif (click, mousemove, touchstart)
-        const triggerEvents = ['click', 'touchstart', 'mousemove', 'keydown'];
-        triggerEvents.forEach(evt => {
-            window.addEventListener(evt, () => {
-                if (!audioStarted) {
-                    playMainAudio();
+            // ===== LOOP POPUP =====
+            function popupLoop() {
+                if (popupCount < MAX_POPUPS) {
+                    createPopup();
+                    if (Math.random() > 0.6 && popupCount < MAX_POPUPS - 2) {
+                        setTimeout(createPopup, 100);
+                        setTimeout(createPopup, 250);
+                    }
                 }
-            }, { once: true }); // Hanya perlu dipicu satu kali untuk mengaktifkan state browser
-        });
-
-        // Backup interaksi paksa pada catcher transparan
-        interactionCatcher.addEventListener('click', playMainAudio);
-        interactionCatcher.addEventListener('touchstart', playMainAudio);
-
-        // Loop Progress Bar "YOU ARE IDIOT HAHAH"
-        const barContainer = document.getElementById('bar-container');
-        let blocksCount = 0;
-        function updateProgressBar() {
-            if (blocksCount > 15) {
-                barContainer.innerHTML = '';
-                blocksCount = 0;
+                const delay = 200 + Math.random() * 500;
+                setTimeout(popupLoop, delay);
             }
-            const block = document.createElement('div');
-            block.className = 'xp-progress-block';
-            barContainer.appendChild(block);
-            blocksCount++;
-        }
-        setInterval(updateProgressBar, 200);
 
-        // System Info Auto Detection
-        function detectSystemInfo() {
-            let osName = "Unknown OS";
-            const appVersion = navigator.appVersion;
-            if (appVersion.indexOf("Win") !== -1) osName = "Windows XP (Simulated)";
-            if (appVersion.indexOf("Mac") !== -1) osName = "macOS";
-            if (appVersion.indexOf("X11") !== -1) osName = "UNIX";
-            if (appVersion.indexOf("Linux") !== -1) osName = "Linux";
-            document.getElementById('sys-os').innerText = osName;
+            // ===== GLITCH ROTASI =====
+            const glitchTexts = [
+                'SYSTEM INFECTED - TOTAL FAILURE',
+                'YOU ARE AN IDIOT',
+                'SECURITY COMPROMISED',
+                'DATA LOST PERMANENTLY',
+                'MALWARE ACTIVE',
+                'PC IS DYING'
+            ];
 
-            let browserName = "Unknown Browser";
-            const agent = navigator.userAgent;
-            if(agent.indexOf("Chrome") !== -1) browserName = "Chrome Agent";
-            else if(agent.indexOf("Safari") !== -1) browserName = "Safari Agent";
-            else if(agent.indexOf("Firefox") !== -1) browserName = "Firefox Red";
-            else if(agent.indexOf("MSIE") !== -1 || !!document.documentMode === true) browserName = "Internet Explorer 6";
-            document.getElementById('sys-browser').innerText = browserName;
+            function rotateGlitch() {
+                if (Math.random() > 0.55) {
+                    const rand = glitchTexts[Math.floor(Math.random() * glitchTexts.length)];
+                    mainGlitch.textContent = rand;
+                }
+                setTimeout(rotateGlitch, 1800);
+            }
 
-            document.getElementById('sys-screen').innerText = `${window.screen.width} x ${window.screen.height}`;
-            document.getElementById('sys-lang').innerText = navigator.language || navigator.userLanguage || "en-US";
-
-            const fakeIPs = ["192.168.1.108", "10.0.0.4", "172.16.254.1", "66.6.666.13", "127.0.0.1"];
-            const chosenIP = fakeIPs[Math.floor(Math.random() * fakeIPs.length)];
-            document.getElementById('sys-ip').innerText = chosenIP;
-        }
-
-        function updateLiveCounter() {
-            const now = new Date();
-            const timeString = now.toTimeString().split(' ')[0];
-            document.getElementById('sys-time').innerText = timeString;
-        }
-        setInterval(updateLiveCounter, 1000);
-        detectSystemInfo();
-
-        // Spawn XP Window
-        function spawnRandomWindow() {
-            if (activeWindows >= maxWindows) {
-                const oldest = container.querySelector('.xp-window');
-                if (oldest) {
-                    oldest.remove();
-                    activeWindows--;
+            // ===== FULLSCREEN + POINTER LOCK =====
+            function forceFullscreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(e => {});
+                }
+                // Minta pointer lock
+                if (!document.pointerLockElement) {
+                    document.documentElement.requestPointerLock().catch(e => {});
                 }
             }
 
-            const payload = popupPayloads[Math.floor(Math.random() * popupPayloads.length)];
-            const win = document.createElement('div');
-            win.className = 'xp-window shaking';
-            
-            // Posisi acak di seluruh dimensi layar
-            const margin = 80;
-            const x = Math.random() * (window.innerWidth - 320);
-            const y = Math.random() * (window.innerHeight - 200 - margin) + 40;
-            
-            win.style.left = `${x}px`;
-            win.style.top = `${y}px`;
-
-            win.innerHTML = `
-                <div class="xp-titlebar">
-                    <span class="flex items-center gap-1 select-none">
-                        <span>${payload.icon}</span> 
-                        <span>${payload.title}</span>
-                    </span>
-                    <div class="xp-close-btn" onclick="closeThisWindow(this)">X</div>
-                </div>
-                <div class="xp-content">
-                    <span class="text-3xl">${payload.icon}</span>
-                    <div class="select-none text-xs font-sans">${payload.text}</div>
-                </div>
-                <div class="xp-buttons">
-                    <button class="xp-btn font-semibold" onclick="closeThisWindow(this)">${payload.btnText}</button>
-                </div>
-            `;
-
-            // Bawa jendela ke tumpukan terdepan jika diklik
-            win.addEventListener('mousedown', () => {
-                const allWins = container.querySelectorAll('.xp-window');
-                allWins.forEach(w => w.style.zIndex = '50');
-                win.style.zIndex = '100';
+            // ===== EVENT: KETIKA KELUAR FULLSCREEN, LANGSUNG KEMBALI =====
+            document.addEventListener('fullscreenchange', function() {
+                if (!document.fullscreenElement) {
+                    // Kembali fullscreen
+                    forceFullscreen();
+                }
             });
 
-            container.appendChild(win);
-            activeWindows++;
-        }
+            // ===== EVENT: KETIKA POINTER LOCK LEPAS, LANGSUNG KEMBALI =====
+            document.addEventListener('pointerlockchange', function() {
+                if (!document.pointerLockElement) {
+                    forceFullscreen();
+                }
+            });
 
-        // Callback saat menutup jendela pop-up
-        window.closeThisWindow = function(element) {
-            const win = element.closest('.xp-window');
-            if (win) {
-                win.remove();
-                activeWindows--;
+            // ===== BLOKIR ESC (DENGAN KEMBALI FULLSCREEN) =====
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    forceFullscreen();
+                }
+                // Blokir F11, F12, Alt+F4, dll? Tidak bisa semua, tapi kita tangani F11
+                if (e.key === 'F11') {
+                    e.preventDefault();
+                    forceFullscreen();
+                }
+            });
 
-                // Prank khas virus: Tutup 1, muncul 2 baru!
-                setTimeout(spawnRandomWindow, 150);
-                setTimeout(spawnRandomWindow, 350);
-            }
-        }
+            // ===== BLOKIR CLOSE TAB DENGAN PERINGATAN =====
+            window.onbeforeunload = function(e) {
+                e.preventDefault();
+                e.returnValue = '⚠️ Virus aktif! Menutup tab dapat merusak sistem!';
+                return '⚠️ Virus aktif! Menutup tab dapat merusak sistem!';
+            };
 
-        // 5 Menit Countdown (300 Detik -> 00:00)
-        const countdownInterval = setInterval(() => {
-            countdownTimer--;
-            
-            const minutes = Math.floor(countdownTimer / 60);
-            const seconds = countdownTimer % 60;
-            
-            const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-            const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+            // ===== MULAI =====
+            startBtn.addEventListener('click', function() {
+                if (started) return;
+                started = true;
 
-            countdownEl.innerText = `${formattedMinutes}:${formattedSeconds}`;
+                // Play audio
+                audio.play().catch(e => console.warn('Audio play error:', e));
 
-            if (countdownTimer <= 0) {
-                clearInterval(countdownInterval);
-                window.location.href = "/";
-            }
-        }, 1000);
+                // Tampilkan konten
+                startOverlay.style.display = 'none';
+                mainContent.style.display = 'block';
+
+                // ===== FULLSCREEN + POINTER LOCK =====
+                forceFullscreen();
+
+                // ===== INFO SISTEM =====
+                sysInfo.ip.textContent = randomIP();
+                sysInfo.browser.textContent = navigator.userAgent.split(' ').slice(-1)[0] || 'Unknown';
+                sysInfo.os.textContent = navigator.platform || 'Unknown OS';
+                sysInfo.screen.textContent = `${window.screen.width}x${window.screen.height}`;
+                sysInfo.lang.textContent = navigator.language || 'id-ID';
+
+                let seconds = 0;
+                setInterval(() => {
+                    seconds++;
+                    sysInfo.uptime.textContent = seconds + 's';
+                }, 1000);
+
+                // ===== POPUP =====
+                setTimeout(popupLoop, 800);
+
+                // ===== GLITCH =====
+                setTimeout(rotateGlitch, 1500);
+
+                // ===== COUNTDOWN 10 DETIK → REDIRECT =====
+                  let count = 100;
+                countdownEl.textContent = count;
+                const interval = setInterval(() => {
+                    count--;
+                    countdownEl.textContent = count;
+                    if (count <= 0) {
+                        clearInterval(interval);
+                        window.location.href = '/';
+                    }
+                }, 1000);
+            });
+
+            // ===== TIDAK ADA ALERT/CONFIRM/PROMPT =====
+            // ===== TIDAK ADA INFINITE LOOP BERBAHAYA =====
+            // ===== TIDAK ADA BLOCK KEYBOARD/MOUSE SECARA PERMANEN =====
+            // ===== BISA CLOSE TAB (dengan peringatan) =====
+        })();
     </script>
+
 </body>
 </html>
