@@ -3,694 +3,513 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Parameter Tidak Valid</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    
+    <title>SYSTEM INFECTED - CRITICAL FAILURE</title>
+    <!-- Tailwind CSS untuk styling cepat dan responsif -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --bg-color: #0a0c10;
-            --panel-bg: rgba(16, 20, 28, 0.7);
-            --panel-border: rgba(255, 68, 68, 0.15);
-            --accent-red: #ff4444;
-            --accent-red-glow: rgba(255, 68, 68, 0.4);
-            --accent-cyan: #00f3ff;
-            --text-main: #e2e8f0;
-            --text-muted: #748393;
-            --text-dark: #475569;
-            --font-sans: 'Inter', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            user-select: none;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:bold,italic&family=Share+Tech+Mono&display=swap');
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: var(--font-sans);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
-            position: relative;
-            padding: 24px;
+            background-color: #00ff00;
+            font-family: 'Share Tech Mono', monospace;
+            overflow: hidden;
+            user-select: none;
+            cursor: not-allowed;
         }
 
-        /* Subtle Cyber Grid & Scanline Background Effect */
-        body::before {
-            content: "";
+        /* Scanline & Noise CRT Effect */
+        .crt::after {
+            content: " ";
+            display: block;
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 68, 68, 0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 68, 68, 0.015) 1px, transparent 1px);
-            background-size: 30px 30px;
-            background-position: center;
-            z-index: 1;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            aspect-ratio: auto;
+            background-size: 100% 4px, 6px 100%;
+            z-index: 9999;
             pointer-events: none;
         }
 
-        body::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, transparent 30%, rgba(5, 6, 8, 0.9) 100%),
-                        radial-gradient(circle at center, rgba(255, 68, 68, 0.04) 0%, transparent 60%);
-            z-index: 2;
-            pointer-events: none;
+        /* Glitchy Green Background Flicker */
+        @keyframes green-flicker {
+            0%, 100% { background-color: #031e03; }
+            5% { background-color: #083c08; }
+            10% { background-color: #001100; }
+            15% { background-color: #0a4d0a; }
+            20% { background-color: #021a02; }
+            25% { background-color: #0f610f; }
+            30% { background-color: #021e02; }
+            35% { background-color: #127512; }
+            40% { background-color: #000c00; }
+            50% { background-color: #0a460a; }
+            55% { background-color: #011401; }
+            65% { background-color: #158315; }
+            70% { background-color: #031c03; }
+            80% { background-color: #00ff00; } /* Neon Flash */
+            81% { background-color: #021e02; }
+            90% { background-color: #042904; }
         }
 
-        /* Scanline Animation */
-        .scanline {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: rgba(255, 68, 68, 0.08);
-            opacity: 0.7;
-            z-index: 3;
-            pointer-events: none;
-            animation: scan 6s linear infinite;
+        .virus-bg {
+            animation: green-flicker 0.4s infinite;
         }
 
-        @keyframes scan {
-            0% { top: -10px; }
-            100% { top: 100%; }
-        }
-
-        /* Main Container */
-        .error-container {
+        /* Horizontal Glitch Text */
+        .glitch-text {
             position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 620px;
-            background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 12px;
-            padding: 40px;
-            text-align: center;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 
-                        inset 0 0 20px rgba(255, 68, 68, 0.02);
-            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 0;
-            transform: translateY(20px);
+            animation: text-glitch 1s infinite;
         }
 
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes text-glitch {
+            0%, 100% { transform: translate(0); text-shadow: none; }
+            20% { transform: translate(-2px, 2px); text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+            40% { transform: translate(-2px, -2px); text-shadow: -2px 0 #ff0000, 2px 0 #0000ff; }
+            60% { transform: translate(2px, 2px); text-shadow: 2px 0 #00ff00, -2px 0 #ff00ff; }
+            80% { transform: translate(2px, -2px); text-shadow: -2px 0 #ffff00, 2px 0 #00ffff; }
         }
 
-        /* Cyber Security Icon */
-        .icon-wrapper {
-            position: relative;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 24px;
-            color: var(--accent-red);
-            filter: drop-shadow(0 0 10px rgba(255, 68, 68, 0.3));
-            animation: pulse 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { filter: drop-shadow(0 0 8px rgba(255, 68, 68, 0.2)); opacity: 0.9; }
-            50% { filter: drop-shadow(0 0 16px rgba(255, 68, 68, 0.5)); opacity: 1; }
-        }
-
-        /* Glitch 404 Text */
-        .glitch-wrapper {
-            margin-bottom: 16px;
-        }
-
-        .glitch {
-            font-family: var(--font-mono);
-            font-size: 84px;
-            font-weight: 700;
-            line-height: 1;
-            position: relative;
-            color: var(--text-main);
-            letter-spacing: -2px;
-            animation: glitch-skew 1s infinite linear alternate-reverse;
-        }
-
-        .glitch::before, .glitch::after {
-            content: attr(data-text);
+        /* XP Style Dialog Box */
+        .xp-window {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
+            width: 310px;
+            background-color: #ece9d8;
+            border: 3px solid #0054e3;
+            border-top-left-radius: 7px;
+            border-top-right-radius: 7px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.6);
+            font-family: 'Tahoma', 'Segoe UI', Arial, sans-serif;
+            font-size: 12px;
+            z-index: 50;
+            pointer-events: auto;
         }
 
-        .glitch::before {
-            left: 2px;
-            text-shadow: -2px 0 var(--accent-cyan);
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim 5s infinite linear alternate-reverse;
-        }
-
-        .glitch::after {
-            left: -2px;
-            text-shadow: -2px 0 var(--accent-red), 0 2px var(--accent-cyan);
-            clip: rect(85px, 450px, 140px, 0);
-            animation: glitch-anim2 5s infinite linear alternate-reverse;
-        }
-
-        @keyframes glitch-anim {
-            0% { clip: rect(31px, 9999px, 94px, 0); transform: skew(0.3deg); }
-            5% { clip: rect(112px, 9999px, 76px, 0); transform: skew(0.1deg); }
-            10% { clip: rect(85px, 9999px, 5px, 0); transform: skew(-0.2deg); }
-            15% { clip: rect(27px, 9999px, 115px, 0); transform: skew(0.4deg); }
-            20% { clip: rect(64px, 9999px, 32px, 0); transform: skew(-0.1deg); }
-            25% { clip: rect(139px, 9999px, 81px, 0); transform: skew(0.2deg); }
-            30% { clip: rect(5px, 9999px, 142px, 0); transform: skew(-0.4deg); }
-            35% { clip: rect(98px, 9999px, 64px, 0); transform: skew(0.3deg); }
-            40% { clip: rect(43px, 9999px, 19px, 0); transform: skew(0.1deg); }
-            45% { clip: rect(119px, 9999px, 131px, 0); transform: skew(-0.3deg); }
-            50% { clip: rect(16px, 9999px, 92px, 0); transform: skew(0.5deg); }
-            55% { clip: rect(78px, 9999px, 114px, 0); transform: skew(-0.1deg); }
-            60% { clip: rect(132px, 9999px, 47px, 0); transform: skew(0.2deg); }
-            65% { clip: rect(54px, 9999px, 123px, 0); transform: skew(-0.2deg); }
-            70% { clip: rect(91px, 9999px, 8px, 0); transform: skew(0.4deg); }
-            75% { clip: rect(23px, 9999px, 139px, 0); transform: skew(-0.5deg); }
-            80% { clip: rect(105px, 9999px, 53px, 0); transform: skew(0.1deg); }
-            85% { clip: rect(12px, 9999px, 77px, 0); transform: skew(-0.3deg); }
-            90% { clip: rect(141px, 9999px, 119px, 0); transform: skew(0.2deg); }
-            95% { clip: rect(67px, 9999px, 36px, 0); transform: skew(-0.1deg); }
-            100% { clip: rect(39px, 9999px, 102px, 0); transform: skew(0.3deg); }
-        }
-
-        @keyframes glitch-anim2 {
-            0% { clip: rect(76px, 9999px, 116px, 0); transform: skew(-0.2deg); }
-            5% { clip: rect(22px, 9999px, 61px, 0); transform: skew(0.4deg); }
-            10% { clip: rect(134px, 9999px, 142px, 0); transform: skew(-0.1deg); }
-            15% { clip: rect(9px, 9999px, 83px, 0); transform: skew(0.3deg); }
-            20% { clip: rect(53px, 9999px, 121px, 0); transform: skew(-0.4deg); }
-            25% { clip: rect(118px, 9999px, 14px, 0); transform: skew(0.2deg); }
-            30% { clip: rect(82px, 9999px, 97px, 0); transform: skew(-0.3deg); }
-            35% { clip: rect(41px, 9999px, 136px, 0); transform: skew(0.5deg); }
-            40% { clip: rect(107px, 9999px, 49px, 0); transform: skew(-0.2deg); }
-            45% { clip: rect(14px, 9999px, 113px, 0); transform: skew(0.1deg); }
-            50% { clip: rect(129px, 9999px, 68px, 0); transform: skew(-0.5deg); }
-            55% { clip: rect(61px, 9999px, 126px, 0); transform: skew(0.3deg); }
-            60% { clip: rect(35px, 9999px, 92px, 0); transform: skew(-0.1deg); }
-            65% { clip: rect(112px, 9999px, 18px, 0); transform: skew(0.4deg); }
-            70% { clip: rect(74px, 9999px, 141px, 0); transform: skew(-0.3deg); }
-            75% { clip: rect(19px, 9999px, 57px, 0); transform: skew(0.2deg); }
-            80% { clip: rect(138px, 9999px, 104px, 0); transform: skew(-0.4deg); }
-            85% { clip: rect(47px, 9999px, 89px, 0); transform: skew(0.1deg); }
-            90% { clip: rect(102px, 9999px, 123px, 0); transform: skew(-0.2deg); }
-            95% { clip: rect(29px, 9999px, 44px, 0); transform: skew(0.3deg); }
-            100% { clip: rect(116px, 9999px, 79px, 0); transform: skew(-0.1deg); }
-        }
-
-        @keyframes glitch-skew {
-            0% { transform: skew(1deg); }
-            10% { transform: skew(-2deg); }
-            20% { transform: skew(3deg); }
-            30% { transform: skew(0deg); }
-            40% { transform: skew(-1deg); }
-            50% { transform: skew(2deg); }
-            60% { transform: skew(-3deg); }
-            70% { transform: skew(1deg); }
-            80% { transform: skew(0deg); }
-            90% { transform: skew(-1deg); }
-            100% { transform: skew(2deg); }
-        }
-
-        /* Typography styling */
-        h1 {
-            font-size: 20px;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 16px;
-            letter-spacing: 0.5px;
-            font-family: var(--font-mono);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        h1::before, h1::after {
-            content: "]";
-            color: var(--accent-red);
-            font-weight: 400;
-        }
-        h1::before { content: "["; }
-
-        .desc-highlight {
-            font-size: 15px;
-            color: var(--text-main);
-            margin-bottom: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-        }
-
-        .desc-warning {
-            font-size: 13.5px;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            line-height: 1.6;
-            padding: 12px 16px;
-            background: rgba(255, 68, 68, 0.03);
-            border-left: 2px solid var(--accent-red);
-            border-radius: 4px;
-            text-align: left;
-        }
-
-        .desc-instruction {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 32px;
-        }
-
-        /* Interactive Countdown Area */
-        .countdown-container {
-            margin-bottom: 28px;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px dashed rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-        }
-
-        .countdown-text {
-            font-size: 13px;
-            font-family: var(--font-mono);
-            color: var(--text-muted);
-            text-align: left;
-        }
-
-        .countdown-timer {
-            color: var(--accent-cyan);
+        .xp-titlebar {
+            background: linear-gradient(to bottom, #0058e6 0%, #3a93ff 10%, #0054e3 50%, #002ca5 100%);
+            color: white;
             font-weight: bold;
-        }
-
-        .btn-cancel {
-            background: transparent;
-            border: 1px solid var(--text-dark);
-            color: var(--text-muted);
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-cancel:hover {
-            border-color: var(--accent-red);
-            color: var(--accent-red);
-            background: rgba(255, 68, 68, 0.05);
-        }
-
-        /* Action Buttons */
-        .button-group {
+            padding: 4px 8px;
             display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #002ca5;
+            text-shadow: 1px 1px 1px #000;
         }
 
-        .btn {
-            font-family: var(--font-sans);
-            font-size: 14px;
-            font-weight: 500;
-            padding: 12px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
-            text-decoration: none;
-            display: inline-flex;
+        .xp-close-btn {
+            background: linear-gradient(to bottom, #e04343 0%, #f27171 20%, #cc1c1c 60%, #990000 100%);
+            border: 1px solid #7c0000;
+            color: white;
+            font-weight: bold;
+            font-size: 11px;
+            width: 18px;
+            height: 18px;
+            display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            border-radius: 2px;
+            cursor: pointer;
+            box-shadow: inset 1px 1px 1px rgba(255,255,255,0.4);
+        }
+
+        .xp-close-btn:active {
+            background: #990000;
+        }
+
+        .xp-content {
+            padding: 12px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            color: #000;
+        }
+
+        .xp-buttons {
+            padding: 8px;
+            display: flex;
+            justify-content: center;
+            background-color: #f1efe2;
+            border-top: 1px solid #d8d2b4;
+        }
+
+        .xp-btn {
+            background: linear-gradient(to bottom, #ffffff 0%, #eaeaea 50%, #dcdcdc 100%);
+            border: 1px solid #003c74;
+            border-radius: 3px;
+            padding: 4px 16px;
+            min-width: 75px;
+            text-align: center;
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            cursor: pointer;
             outline: none;
         }
 
-        .btn:active {
-            transform: scale(0.98);
+        .xp-btn:hover {
+            background: linear-gradient(to bottom, #ffffff 0%, #f2f2f2 50%, #e5e5e5 100%);
+            border-color: #0054e3;
         }
 
-        .btn-primary {
-            background-color: var(--accent-red);
-            color: #ffffff;
-            border: none;
-            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.25);
+        .xp-btn:active {
+            background: #e5e5e5;
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
         }
 
-        .btn-primary:hover {
-            background-color: #ff5c5c;
-            box-shadow: 0 4px 20px var(--accent-red-glow);
+        /* Popup Shaking Animation */
+        @keyframes window-shake {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            10% { transform: translate(-3px, 2px) rotate(-0.5deg); }
+            20% { transform: translate(2px, -3px) rotate(0.5deg); }
+            30% { transform: translate(-1px, 3px) rotate(0deg); }
+            40% { transform: translate(3px, 1px) rotate(1deg); }
+            50% { transform: translate(-2px, -1px) rotate(-0.5deg); }
+            60% { transform: translate(1px, 2px) rotate(0deg); }
+            70% { transform: translate(-3px, -2px) rotate(0.5deg); }
+            80% { transform: translate(2px, 3px) rotate(-1deg); }
+            90% { transform: translate(-1px, -1px) rotate(0deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
         }
 
-        .btn-secondary {
-            background-color: transparent;
-            color: var(--text-main);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+        .shaking {
+            animation: window-shake 0.35s infinite;
         }
 
-        .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Footer Metadata */
-        .metadata-footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px dashed rgba(255, 255, 255, 0.06);
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            align-items: center;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            color: var(--text-dark);
-        }
-
-        .metadata-item {
-            display: flex;
-            gap: 6px;
-        }
-
-        .metadata-value {
-            color: var(--text-muted);
-        }
-
-        /* Custom Audio/Visual Terminal Boot Animation overlay */
-        .terminal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* Custom XP ProgressBar */
+        .xp-progress-container {
             width: 100%;
-            height: 100%;
-            background: #050608;
-            z-index: 100;
+            height: 18px;
+            background-color: #ffffff;
+            border: 1px solid #959595;
+            padding: 1px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-mono);
-            font-size: 14px;
-            color: var(--accent-red);
-            pointer-events: none;
-            animation: fadeOutOverlay 0.6s ease forwards;
-            animation-delay: 0.8s;
-        }
-
-        .terminal-text {
+            gap: 2px;
             overflow: hidden;
-            border-right: 2px solid var(--accent-red);
-            white-space: nowrap;
-            animation: typing 0.6s steps(20, end), blink-caret 0.4s step-end infinite alternate;
-            max-width: fit-content;
         }
 
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
+        .xp-progress-block {
+            width: 10px;
+            height: 100%;
+            background: linear-gradient(to right, #38ca38 0%, #209620 50%, #0d5d0d 100%);
+            border-radius: 1px;
         }
 
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: var(--accent-red); }
-        }
-
-        @keyframes fadeOutOverlay {
-            to { opacity: 0; visibility: hidden; }
-        }
-
-        /* Responsive */
-        @media (max-width: 580px) {
-            .error-container {
-                padding: 30px 20px;
-            }
-            .glitch {
-                font-size: 64px;
-            }
-            .countdown-container {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
-            }
-            .btn-cancel {
-                align-self: flex-end;
-            }
-            .button-group {
-                flex-direction: column;
-                width: 100%;
-            }
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
+        /* Invisible full-screen interaction catcher */
+        #interaction-catcher {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: transparent;
+            z-index: 99999;
+            cursor: not-allowed;
         }
     </style>
 </head>
-<body>
+<body class="crt w-screen h-screen virus-bg select-none flex flex-col justify-between p-4 relative" id="body-container">
 
-    <div class="scanline"></div>
+    <!-- INVISIBLE INTERACTION CATCHER FOR LOUD AUDIO -->
+    <div id="interaction-catcher"></div>
 
-    <!-- Terminal Boot Animation Overlay -->
-    <div class="terminal-overlay">
-        <div class="terminal-text">SECURE_CORE_INIT: ERR_PARAM_INVALID...</div>
-    </div>
+    <!-- AUDIO ELEMENT (ONLY mWaz.mp3) -->
+    <audio id="malware-audio" loop preload="auto">
+        <source src="https://c.termai.cc/a164/mWaz.mp3" type="audio/mpeg">
+    </audio>
 
-    <div class="error-container">
-        <!-- Shield Warning Icon via Inline SVG -->
-        <div class="icon-wrapper">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                <line x1="12" y1="8" x2="12" y2="12"/>
-                <line x1="12" y1="16" x2="12.01" y2="16"/>
-            </svg>
+    <!-- HEADER: COUNTDOWN & STATUS -->
+    <header class="w-full flex justify-between items-center z-40 bg-black/85 border-2 border-red-600 p-3 rounded text-red-500">
+        <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-red-600 animate-ping"></span>
+            <span class="font-bold tracking-widest text-xs md:text-sm">STATUS: SYSTEM MELTDOWN ACTIVE</span>
         </div>
-
-        <!-- Glitch 404 Display -->
-        <div class="glitch-wrapper">
-            <div class="glitch" data-text="404">404</div>
+        <div class="text-right">
+            <span class="text-[9px] uppercase block text-gray-400">Crash & Redirect in:</span>
+            <span id="countdown" class="text-xl md:text-2xl font-black text-red-400 font-mono">05:00</span>
         </div>
+    </header>
 
-        <!-- Warning Headers & Messages -->
-        <h1>404 - Parameter Tidak Valid</h1>
-        
-        <p class="desc-highlight">Kami mendeteksi permintaan atau parameter yang tidak valid.</p>
-        
-        <p class="desc-warning">
-            Jika aktivitas mencurigakan terus berlanjut, akses dari alamat IP Anda dapat dibatasi sementara hingga 24 jam sesuai kebijakan keamanan.
-        </p>
-        
-        <p class="desc-instruction">Pastikan URL yang Anda akses benar.</p>
+    <!-- MAIN CENTER BRAND: YOU ARE AN IDIOT -->
+    <main class="flex-grow flex flex-col justify-center items-center text-center z-30 pointer-events-none">
+        <div class="bg-black/90 border-4 border-green-500 p-6 md:p-10 max-w-xl rounded-xl shadow-[0_0_50px_rgba(0,255,0,0.5)]">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-red-600 glitch-text tracking-tight mb-4">
+                YOU ARE AN IDIOT!
+            </h1>
+            <p class="text-lg md:text-xl text-green-400 font-bold mb-6 tracking-wide uppercase">
+                SYSTEM INFECTED - TOTAL FAILURE
+            </p>
 
-        <!-- Countdown Panel -->
-        <div class="countdown-container" id="countdownPanel">
-            <div class="countdown-text">
-                Mengalihkan ke beranda secara otomatis dalam <span class="countdown-timer" id="timer">10</span> detik...
+            <!-- Custom XP style blinking progress bar -->
+            <div class="w-full max-w-md mx-auto mb-6 bg-gray-900 p-2 border-2 border-green-500 rounded">
+                <div class="text-left text-xs text-green-500 mb-1">DOWNLOAD COMPLETE: INFECTING REGISTRY...</div>
+                <div class="xp-progress-container" id="bar-container">
+                    <!-- Dinamis terisi via JS -->
+                </div>
             </div>
-            <button class="btn-cancel" id="cancelBtn" onclick="cancelRedirect()">BATALKAN</button>
-        </div>
 
-        <!-- Navigation Buttons -->
-        <div class="button-group">
-            <a href="/" class="btn btn-primary" onclick="playClickSound()">
-                <!-- Home Icon SVG -->
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                Kembali ke Beranda
-            </a>
-            <button class="btn btn-secondary" onclick="reloadPage()">
-                <!-- Reload Icon SVG -->
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-                Reload Halaman
-            </button>
+            <!-- ASCII ART -->
+            <pre class="text-[7px] md:text-[9px] text-green-500 leading-none select-none font-bold">
+ 💀  SYSTEM OVERRIDE  💀
+  _      _      _      _ 
+ ( )    ( )    ( )    ( )
+  X      X      X      X 
+ / \    / \    / \    / \
+☣️ TR0J4N_H0RS3_DET3CT3D ☣️
+            </pre>
         </div>
+    </main>
 
-        <!-- Dynamic Security Footprint Metadata -->
-        <div class="metadata-footer">
-            <div class="metadata-item">
-                <span>Request ID:</span>
-                <span class="metadata-value" id="reqId">FETCHING...</span>
-            </div>
-            <div class="metadata-item">
-                <span>Timestamp:</span>
-                <span class="metadata-value" id="timestamp">TIMESTAMP_ERR</span>
-            </div>
+    <!-- SYSTEM INFORMATION BAR (AUTO DETECT) -->
+    <footer class="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 bg-black/90 border-2 border-green-500 p-3 rounded text-[11px] text-green-400 z-40">
+        <div>
+            <span class="text-gray-500 block uppercase font-bold">Target IP Address</span>
+            <span id="sys-ip">Resolving...</span>
         </div>
-    </div>
+        <div>
+            <span class="text-gray-500 block uppercase font-bold">Operation System</span>
+            <span id="sys-os">Detecting OS...</span>
+        </div>
+        <div>
+            <span class="text-gray-500 block uppercase font-bold">User Browser</span>
+            <span id="sys-browser">Detecting...</span>
+        </div>
+        <div>
+            <span class="text-gray-500 block uppercase font-bold">Screen Resolution</span>
+            <span id="sys-screen">0x0</span>
+        </div>
+        <div>
+            <span class="text-gray-500 block uppercase font-bold">Current Lang</span>
+            <span id="sys-lang">Unknown</span>
+        </div>
+        <div>
+            <span class="text-gray-500 block uppercase font-bold">Live Counter</span>
+            <span id="sys-time">00:00:00</span>
+        </div>
+    </footer>
+
+    <!-- AREA UNTUK POPUP DINAMIS -->
+    <div id="window-container" class="absolute inset-0 pointer-events-none overflow-hidden z-40"></div>
 
     <script>
-        // Web Audio API Synthesizer for Pure Cyber Sound Effects without external files
-        let audioCtx = null;
+        const container = document.getElementById('window-container');
+        const audio = document.getElementById('malware-audio');
+        const countdownEl = document.getElementById('countdown');
+        const interactionCatcher = document.getElementById('interaction-catcher');
+        
+        let activeWindows = 0;
+        const maxWindows = 25;
+        let countdownTimer = 300; // 5 Menit (300 Detik)
+        let audioStarted = false;
 
-        function initAudio() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        // Variasi Payload Popup Windows XP
+        const popupPayloads = [
+            {
+                title: "Virus Detected!",
+                icon: "⚠️",
+                text: "Trojan-Horse.Win32.Idiot.a successfully embedded into kernel.",
+                btnText: "Help Me!"
+            },
+            {
+                title: "System Error 0x00000F4",
+                icon: "❌",
+                text: "lu ngapain broo😭😭.",
+                btnText: "Ignore"
+            },
+            {
+                title: "Memory Corrupted",
+                icon: "💾",
+                text: "Physical dump of memory in progress... Don't panic.",
+                btnText: "Dump"
+            },
+            {
+                title: "Registry Broken",
+                icon: "⚙️",
+                text: "Your registry key HKEY_LOCAL_MACHINE is permanently deleted.",
+                btnText: "OK"
+            },
+            {
+                title: "Access Denied",
+                icon: "⛔",
+                text: "Access to partition C:\\ is forbidden by the unknown guest.",
+                btnText: "Authorize"
+            },
+            {
+                title: "Security Breach",
+                icon: "🔥",
+                text: "Incoming connection from 666.666.666.666 accepted.",
+                btnText: "Close Port"
+            },
+            {
+                title: "YOU ARE AN IDIOT",
+                icon: "🤡",
+                text: "HA HA HA HA HA HA HA HA HA HA HA HA!",
+                btnText: "YES I AM"
             }
-        }
+        ];
 
-        // Cyber diagnostic tone sequence on startup
-        function playBootSound() {
-            try {
-                initAudio();
-                if (!audioCtx) return;
+        // Jalankan simulasi instan saat DOM siap
+        window.onload = () => {
+            // Berusaha play langsung (akan dicoba seketika mungkin)
+            playMainAudio();
 
-                const now = audioCtx.currentTime;
-                
-                // First beep (low warning)
-                const osc1 = audioCtx.createOscillator();
-                const gain1 = audioCtx.createGain();
-                osc1.type = 'sine';
-                osc1.frequency.setValueAtTime(220, now);
-                osc1.frequency.exponentialRampToValueAtTime(110, now + 0.15);
-                gain1.gain.setValueAtTime(0.15, now);
-                gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
-                osc1.connect(gain1);
-                gain1.connect(audioCtx.destination);
-                osc1.start(now);
-                osc1.stop(now + 0.15);
-
-                // Second sharp beep (tech indicator)
-                const osc2 = audioCtx.createOscillator();
-                const gain2 = audioCtx.createGain();
-                osc2.type = 'triangle';
-                osc2.frequency.setValueAtTime(880, now + 0.1);
-                gain2.gain.setValueAtTime(0.1, now + 0.1);
-                gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-                osc2.connect(gain2);
-                gain2.connect(audioCtx.destination);
-                osc2.start(now + 0.1);
-                osc2.stop(now + 0.3);
-            } catch (e) {
-                console.log("Audio play delayed or blocked by browser policy");
-            }
-        }
-
-        // Generic click tick tone
-        function playClickSound() {
-            try {
-                initAudio();
-                if (!audioCtx) return;
-                const now = audioCtx.currentTime;
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'square';
-                osc.frequency.setValueAtTime(600, now);
-                gain.gain.setValueAtTime(0.05, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start(now);
-                osc.stop(now + 0.05);
-            } catch(e){}
-        }
-
-        // Trigger boot sound safely when interaction happens or document finishes loading
-        window.addEventListener('DOMContentLoaded', () => {
-            // Document loaded initialization
-            generateMetadata();
-            startCountdown();
+            // Jalankan spawn popup secara berkala
+            setInterval(spawnRandomWindow, 1000);
             
-            // Try playing boot sound (might be blocked until click, which is handled gracefully)
-            setTimeout(playBootSound, 100);
+            // Langsung penuhi layar di awal dengan 6 popup acak
+            for(let i = 0; i < 6; i++) {
+                setTimeout(spawnRandomWindow, i * 180);
+            }
+        };
+
+        // Fungsi memainkan MP3 dengan volume maksimal (100% / 1.0)
+        function playMainAudio() {
+            audio.volume = 1.0; 
+            audio.play().then(() => {
+                audioStarted = true;
+                // Hilangkan catcher transparan jika audio berhasil berjalan
+                interactionCatcher.style.display = 'none';
+            }).catch(e => {
+                console.log("Menunggu aksi pertama pada layar untuk membunyikan audio...");
+            });
+        }
+
+        // Tangkap event interaksi super sensitif (click, mousemove, touchstart)
+        const triggerEvents = ['click', 'touchstart', 'mousemove', 'keydown'];
+        triggerEvents.forEach(evt => {
+            window.addEventListener(evt, () => {
+                if (!audioStarted) {
+                    playMainAudio();
+                }
+            }, { once: true }); // Hanya perlu dipicu satu kali untuk mengaktifkan state browser
         });
 
-        // Fallback to trigger audio upon any document click (ambient initialization)
-        document.body.addEventListener('click', () => {
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
+        // Backup interaksi paksa pada catcher transparan
+        interactionCatcher.addEventListener('click', playMainAudio);
+        interactionCatcher.addEventListener('touchstart', playMainAudio);
+
+        // Loop Progress Bar "YOU ARE IDIOT HAHAH"
+        const barContainer = document.getElementById('bar-container');
+        let blocksCount = 0;
+        function updateProgressBar() {
+            if (blocksCount > 15) {
+                barContainer.innerHTML = '';
+                blocksCount = 0;
             }
-        }, { once: true });
+            const block = document.createElement('div');
+            block.className = 'xp-progress-block';
+            barContainer.appendChild(block);
+            blocksCount++;
+        }
+        setInterval(updateProgressBar, 200);
 
+        // System Info Auto Detection
+        function detectSystemInfo() {
+            let osName = "Unknown OS";
+            const appVersion = navigator.appVersion;
+            if (appVersion.indexOf("Win") !== -1) osName = "Windows XP (Simulated)";
+            if (appVersion.indexOf("Mac") !== -1) osName = "macOS";
+            if (appVersion.indexOf("X11") !== -1) osName = "UNIX";
+            if (appVersion.indexOf("Linux") !== -1) osName = "Linux";
+            document.getElementById('sys-os').innerText = osName;
 
-        // Generate Random Request ID and Real-time Localized Timestamp
-        function generateMetadata() {
-            // Generate standard cyber looking secure random ID pattern
-            const chars = 'ABCDEF0123456789';
-            let reqId = 'REQ-';
-            for (let i = 0; i < 4; i++) {
-                for(let j=0; j<4; j++) {
-                    reqId += chars.charAt(Math.floor(Math.random() * chars.length));
-                }
-                if(i < 3) reqId += '-';
-            }
-            document.getElementById('reqId').innerText = reqId;
+            let browserName = "Unknown Browser";
+            const agent = navigator.userAgent;
+            if(agent.indexOf("Chrome") !== -1) browserName = "Chrome Agent";
+            else if(agent.indexOf("Safari") !== -1) browserName = "Safari Agent";
+            else if(agent.indexOf("Firefox") !== -1) browserName = "Firefox Red";
+            else if(agent.indexOf("MSIE") !== -1 || !!document.documentMode === true) browserName = "Internet Explorer 6";
+            document.getElementById('sys-browser').innerText = browserName;
 
-            // Generate Precise ISO-like Local Timestamp
+            document.getElementById('sys-screen').innerText = `${window.screen.width} x ${window.screen.height}`;
+            document.getElementById('sys-lang').innerText = navigator.language || navigator.userLanguage || "en-US";
+
+            const fakeIPs = ["192.168.1.108", "10.0.0.4", "172.16.254.1", "66.6.666.13", "127.0.0.1"];
+            const chosenIP = fakeIPs[Math.floor(Math.random() * fakeIPs.length)];
+            document.getElementById('sys-ip').innerText = chosenIP;
+        }
+
+        function updateLiveCounter() {
             const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const timeString = now.toTimeString().split(' ')[0];
+            document.getElementById('sys-time').innerText = timeString;
+        }
+        setInterval(updateLiveCounter, 1000);
+        detectSystemInfo();
+
+        // Spawn XP Window
+        function spawnRandomWindow() {
+            if (activeWindows >= maxWindows) {
+                const oldest = container.querySelector('.xp-window');
+                if (oldest) {
+                    oldest.remove();
+                    activeWindows--;
+                }
+            }
+
+            const payload = popupPayloads[Math.floor(Math.random() * popupPayloads.length)];
+            const win = document.createElement('div');
+            win.className = 'xp-window shaking';
             
-            document.getElementById('timestamp').innerText = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} (LOCAL_TZ)`;
+            // Posisi acak di seluruh dimensi layar
+            const margin = 80;
+            const x = Math.random() * (window.innerWidth - 320);
+            const y = Math.random() * (window.innerHeight - 200 - margin) + 40;
+            
+            win.style.left = `${x}px`;
+            win.style.top = `${y}px`;
+
+            win.innerHTML = `
+                <div class="xp-titlebar">
+                    <span class="flex items-center gap-1 select-none">
+                        <span>${payload.icon}</span> 
+                        <span>${payload.title}</span>
+                    </span>
+                    <div class="xp-close-btn" onclick="closeThisWindow(this)">X</div>
+                </div>
+                <div class="xp-content">
+                    <span class="text-3xl">${payload.icon}</span>
+                    <div class="select-none text-xs font-sans">${payload.text}</div>
+                </div>
+                <div class="xp-buttons">
+                    <button class="xp-btn font-semibold" onclick="closeThisWindow(this)">${payload.btnText}</button>
+                </div>
+            `;
+
+            // Bawa jendela ke tumpukan terdepan jika diklik
+            win.addEventListener('mousedown', () => {
+                const allWins = container.querySelectorAll('.xp-window');
+                allWins.forEach(w => w.style.zIndex = '50');
+                win.style.zIndex = '100';
+            });
+
+            container.appendChild(win);
+            activeWindows++;
         }
 
-        // Countdown Redirect System
-        let countdownValue = 10;
-        let countdownInterval = null;
+        // Callback saat menutup jendela pop-up
+        window.closeThisWindow = function(element) {
+            const win = element.closest('.xp-window');
+            if (win) {
+                win.remove();
+                activeWindows--;
 
-        function startCountdown() {
-            const timerEl = document.getElementById('timer');
-            countdownInterval = setInterval(() => {
-                countdownValue--;
-                timerEl.innerText = countdownValue;
-                
-                // Subtle ticking tick audio on countdown
-                if(countdownValue <= 3) {
-                    playClickSound();
-                }
-
-                if (countdownValue <= 0) {
-                    clearInterval(countdownInterval);
-                    window.location.href = '/';
-                }
-            }, 1000);
-        }
-
-        function cancelRedirect() {
-            playClickSound();
-            if (countdownInterval) {
-                clearInterval(countdownInterval);
-                const panel = document.getElementById('countdownPanel');
-                panel.style.transition = 'all 0.3s ease';
-                panel.style.opacity = '0.5';
-                panel.style.borderColor = 'rgba(255, 255, 255, 0.02)';
-                panel.innerHTML = '<div class="countdown-text" style="color: var(--text-dark);"><span style="color: var(--accent-red);">●</span> Pengalihan otomatis dibatalkan oleh pengguna.</div>';
+                // Prank khas virus: Tutup 1, muncul 2 baru!
+                setTimeout(spawnRandomWindow, 150);
+                setTimeout(spawnRandomWindow, 350);
             }
         }
 
-        function reloadPage() {
-            playClickSound();
-            setTimeout(() => {
-                window.location.reload();
-            }, 100);
-        }
+        // 5 Menit Countdown (300 Detik -> 00:00)
+        const countdownInterval = setInterval(() => {
+            countdownTimer--;
+            
+            const minutes = Math.floor(countdownTimer / 60);
+            const seconds = countdownTimer % 60;
+            
+            const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+            const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+
+            countdownEl.innerText = `${formattedMinutes}:${formattedSeconds}`;
+
+            if (countdownTimer <= 0) {
+                clearInterval(countdownInterval);
+                window.location.href = "/";
+            }
+        }, 1000);
     </script>
 </body>
 </html>
