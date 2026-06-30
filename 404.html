@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>.env</title>
+    <title>⚠️ SYSTEM INFECTED - FULL LOCKDOWN</title>
     <style>
         /* ===== RESET & GLOBAL ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none !important; /* Hilangkan cursor */
+            cursor: not-allowed !important;
             user-select: none;
         }
 
@@ -30,7 +30,7 @@
             100% { background-color: #00ff66; }
         }
 
-        /* ===== SCANLINE + NOISE ===== */
+        /* ===== SCANLINE & NOISE ===== */
         body::before {
             content: '';
             position: fixed;
@@ -57,34 +57,31 @@
             background-size: 200px 200px;
         }
 
-        /* ===== GLITCH UTAMA ===== */
-        .main-glitch {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 100;
-            text-align: center;
-            color: #ff0000;
-            font-size: clamp(2.5rem, 10vw, 5rem);
-            font-weight: 900;
-            text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 2px 2px 0 #000;
-            animation: glitchText 0.7s infinite step-end;
-            letter-spacing: 4px;
-            background: rgba(0,0,0,0.8);
-            padding: 20px 40px;
-            border: 4px solid #ff0000;
-            box-shadow: 0 0 50px #ff0000;
+        /* ===== SPAM IMAGE CONTAINER ===== */
+        #spamContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
+            z-index: 50;
+            overflow: hidden;
         }
 
-        @keyframes glitchText {
-            0% { transform: translate(-50%, -50%) skew(0deg) scale(1); }
-            20% { transform: translate(-50%, -50%) skew(4deg) scale(1.03); }
-            40% { transform: translate(-50%, -50%) skew(-4deg) scale(0.97); }
-            60% { transform: translate(-50%, -50%) skew(2deg) scale(1.01); }
-            80% { transform: translate(-50%, -50%) skew(-2deg) scale(0.99); }
-            100% { transform: translate(-50%, -50%) skew(0deg) scale(1); }
+        .spam-image {
+            position: absolute;
+            width: 200px;
+            height: auto;
+            animation: floatImage 2s infinite alternate ease-in-out;
+            pointer-events: none;
+            opacity: 0.95;
+            object-fit: contain;
+        }
+
+        @keyframes floatImage {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            100% { transform: translate(40px, -40px) rotate(8deg) scale(1.15); }
         }
 
         /* ===== SISTEM INFO ===== */
@@ -170,78 +167,6 @@
             100% { width: 100%; }
         }
 
-        /* ===== WINDOWS XP POPUP ===== */
-        .win-popup {
-            position: fixed;
-            min-width: 200px;
-            max-width: 320px;
-            background: #e0e0e0;
-            border: 2px solid #0055aa;
-            border-radius: 4px;
-            box-shadow: 4px 4px 14px rgba(0,0,0,0.8);
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            z-index: 500;
-            animation: shakeFade 0.35s ease-out;
-            opacity: 0.95;
-            pointer-events: none;
-            transition: opacity 0.4s;
-        }
-
-        .win-popup .title-bar {
-            background: linear-gradient(180deg, #0055aa 0%, #003388 100%);
-            color: white;
-            padding: 4px 10px;
-            font-size: 12px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            border-radius: 4px 4px 0 0;
-        }
-
-        .win-popup .title-bar .close {
-            background: #c0c0c0;
-            border: 1px solid #777;
-            color: black;
-            font-weight: bold;
-            width: 18px;
-            height: 18px;
-            text-align: center;
-            line-height: 16px;
-            font-size: 12px;
-            border-radius: 2px;
-        }
-
-        .win-popup .content {
-            padding: 12px 16px 16px 16px;
-            font-size: 13px;
-            color: #000;
-            background: #f0f0f0;
-            border-radius: 0 0 4px 4px;
-            border: 1px solid #aaa;
-            border-top: none;
-        }
-
-        .win-popup .content .btn-ok {
-            margin-top: 12px;
-            background: #d4d4d4;
-            border: 2px solid #888;
-            border-top-color: #fff;
-            border-left-color: #fff;
-            padding: 4px 24px;
-            font-weight: bold;
-            font-size: 12px;
-            border-radius: 2px;
-            float: right;
-            cursor: default;
-        }
-
-        @keyframes shakeFade {
-            0% { transform: translate(0,0) scale(0.7); opacity: 0; }
-            30% { transform: translate(-12px,8px) scale(1.03); }
-            60% { transform: translate(10px,-6px) scale(0.97); }
-            100% { transform: translate(0,0) scale(1); opacity: 1; }
-        }
-
         /* ===== OVERLAY GELAP ===== */
         .dark-overlay {
             position: fixed;
@@ -249,7 +174,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.25);
             pointer-events: none;
             z-index: 10;
         }
@@ -261,7 +186,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.92);
             z-index: 99999;
             display: flex;
             align-items: center;
@@ -311,7 +236,7 @@
             .sys-info { font-size: 11px; padding: 10px 15px; left: 10px; bottom: 10px; max-width: 200px; }
             .countdown { font-size: 2rem; padding: 10px 20px; bottom: 10px; right: 10px; }
             .scan-bar { width: 90vw; }
-            .main-glitch { font-size: 2rem; padding: 15px 20px; }
+            .spam-image { width: 120px; }
         }
     </style>
 </head>
@@ -319,17 +244,17 @@
 
     <!-- ===== START OVERLAY ===== -->
     <div id="startOverlay">
-        <h1>⚠️ 404 ⚠️</h1>
-        <p>Klik tombol di bawah untuk memulai kembali ke home.<br>
-        <span style="color:#666; font-size:0.9rem;">* otomatis kembali ke halaman</span></p>
-        <button class="start-btn" id="startBtn">▶ KEMBALI</button>
+        <h1>⚠️ SISTEM TERINFEKSI ⚠️</h1>
+        <p>Klik tombol di bawah untuk memulai lockdown total.<br>
+        <span style="color:#666; font-size:0.9rem;">* Fullscreen & Mouse Lock akan diaktifkan</span></p>
+        <button class="start-btn" id="startBtn">▶ MULAI LOCKDOWN</button>
     </div>
 
     <!-- ===== KONTEN UTAMA ===== -->
     <div id="mainContent" style="display:none;">
 
-        <!-- Glitch utama -->
-        <div class="main-glitch" id="mainGlitch">SYSTEM INFECTED - TOTAL FAILURE</div>
+        <!-- SPAM IMAGE CONTAINER -->
+        <div id="spamContainer"></div>
 
         <!-- Info sistem -->
         <div class="sys-info" id="sysInfo">
@@ -359,14 +284,14 @@
             // ===== AUDIO =====
             const audio = new Audio('https://c.termai.cc/a164/mWaz.mp3');
             audio.loop = false;
-            audio.volume = 0.5;
+            audio.volume = 0.6;
 
             // ===== DOM REFS =====
             const startOverlay = document.getElementById('startOverlay');
             const startBtn = document.getElementById('startBtn');
             const mainContent = document.getElementById('mainContent');
             const countdownEl = document.getElementById('countdown');
-            const mainGlitch = document.getElementById('mainGlitch');
+            const spamContainer = document.getElementById('spamContainer');
             const sysInfo = {
                 ip: document.getElementById('ip'),
                 browser: document.getElementById('browser'),
@@ -377,151 +302,45 @@
             };
 
             let started = false;
-            let popupCount = 0;
-            const MAX_POPUPS = 45;
-
-            // ===== PESAN POPUP =====
-            const messages = [
-                '⚠️ Virus Detected!',
-                '❌ System Error 0x00000F4',
-                '💾 Memory Corrupted',
-                '🔧 Registry Broken',
-                '🚫 Access Denied',
-                '🔓 Security Breach',
-                '💣 Ransomware payload',
-                '📀 Hard disk failure',
-                '🛑 Critical process died',
-                '📡 Backdoor installed',
-                '💀 System32 deleted',
-                '🔥 Firewall disabled',
-                '⚡ Kernel panic',
-                '🕵️ Keylogger active'
-            ];
+            let spamInterval = null;
 
             // ===== FAKE IP =====
             function randomIP() {
                 return `192.168.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
             }
 
-            // ===== BUAT POPUP =====
-            function createPopup() {
-                if (popupCount >= MAX_POPUPS) return;
+            // ===== SPAM IMAGES DARI URL (BERULANG TANPA JEDA) =====
+            function spamImages() {
+                const imageUrls = [
+                    'https://c.termai.cc/i176/Dn3qCP.jpg',
+                    'https://c.termai.cc/i109/F1rJj.jpg'
+                ];
+                const container = document.getElementById('spamContainer');
+                if (!container) return;
 
-                const msg = messages[Math.floor(Math.random() * messages.length)];
-                const x = Math.random() * (window.innerWidth - 280);
-                const y = Math.random() * (window.innerHeight - 150);
+                // Hapus semua gambar lama
+                container.innerHTML = '';
 
-                const popup = document.createElement('div');
-                popup.className = 'win-popup';
-                popup.style.left = x + 'px';
-                popup.style.top = y + 'px';
-                popup.style.width = (220 + Math.random() * 100) + 'px';
-
-                popup.innerHTML = `
-                    <div class="title-bar">
-                        <span>⚠️ SYSTEM WARNING</span>
-                        <span class="close">✖</span>
-                    </div>
-                    <div class="content">
-                        <div style="margin-bottom:8px;">${msg}</div>
-                        <div class="btn-ok">OK</div>
-                    </div>
-                `;
-
-                document.body.appendChild(popup);
-                popupCount++;
-
-                setTimeout(() => {
-                    if (popup.parentNode) {
-                        popup.style.opacity = '0';
-                        setTimeout(() => {
-                            if (popup.parentNode) {
-                                popup.remove();
-                                popupCount--;
-                            }
-                        }, 500);
-                    }
-                }, 5000 + Math.random() * 4000);
-            }
-
-            // ===== LOOP POPUP =====
-            function popupLoop() {
-                if (popupCount < MAX_POPUPS) {
-                    createPopup();
-                    if (Math.random() > 0.6 && popupCount < MAX_POPUPS - 2) {
-                        setTimeout(createPopup, 100);
-                        setTimeout(createPopup, 250);
-                    }
-                }
-                const delay = 200 + Math.random() * 500;
-                setTimeout(popupLoop, delay);
-            }
-
-            // ===== GLITCH ROTASI =====
-            const glitchTexts = [
-                'SYSTEM INFECTED - TOTAL FAILURE',
-                'YOU ARE AN IDIOT',
-                'SECURITY COMPROMISED',
-                'DATA LOST PERMANENTLY',
-                'MALWARE ACTIVE',
-                'PC IS DYING'
-            ];
-
-            function rotateGlitch() {
-                if (Math.random() > 0.55) {
-                    const rand = glitchTexts[Math.floor(Math.random() * glitchTexts.length)];
-                    mainGlitch.textContent = rand;
-                }
-                setTimeout(rotateGlitch, 1800);
-            }
-
-            // ===== FULLSCREEN + POINTER LOCK =====
-            function forceFullscreen() {
-                if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen().catch(e => {});
-                }
-                // Minta pointer lock
-                if (!document.pointerLockElement) {
-                    document.documentElement.requestPointerLock().catch(e => {});
+                // Spam 60-80 gambar (lebih banyak agar lebih chaos)
+                const count = 60 + Math.floor(Math.random() * 40);
+                for (let i = 0; i < count; i++) {
+                    const img = document.createElement('img');
+                    // Pilih salah satu URL secara acak
+                    const url = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+                    img.src = url;
+                    img.className = 'spam-image';
+                    img.style.left = Math.random() * 90 + '%';
+                    img.style.top = Math.random() * 90 + '%';
+                    img.style.width = (120 + Math.random() * 150) + 'px';
+                    img.style.animationDelay = (Math.random() * 1) + 's';
+                    img.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+                    img.style.transform = `rotate(${Math.random() * 30 - 15}deg)`;
+                    img.setAttribute('alt', 'spam');
+                    container.appendChild(img);
                 }
             }
 
-            // ===== EVENT: KETIKA KELUAR FULLSCREEN, LANGSUNG KEMBALI =====
-            document.addEventListener('fullscreenchange', function() {
-                if (!document.fullscreenElement) {
-                    // Kembali fullscreen
-                    forceFullscreen();
-                }
-            });
-
-            // ===== EVENT: KETIKA POINTER LOCK LEPAS, LANGSUNG KEMBALI =====
-            document.addEventListener('pointerlockchange', function() {
-                if (!document.pointerLockElement) {
-                    forceFullscreen();
-                }
-            });
-
-            // ===== BLOKIR ESC (DENGAN KEMBALI FULLSCREEN) =====
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    e.preventDefault();
-                    forceFullscreen();
-                }
-                // Blokir F11, F12, Alt+F4, dll? Tidak bisa semua, tapi kita tangani F11
-                if (e.key === 'F11') {
-                    e.preventDefault();
-                    forceFullscreen();
-                }
-            });
-
-            // ===== BLOKIR CLOSE TAB DENGAN PERINGATAN =====
-            window.onbeforeunload = function(e) {
-                e.preventDefault();
-                e.returnValue = '⚠️ Virus aktif! Menutup tab dapat merusak sistem!';
-                return '⚠️ Virus aktif! Menutup tab dapat merusak sistem!';
-            };
-
-            // ===== MULAI =====
+            // ===== START =====
             startBtn.addEventListener('click', function() {
                 if (started) return;
                 started = true;
@@ -533,8 +352,10 @@
                 startOverlay.style.display = 'none';
                 mainContent.style.display = 'block';
 
-                // ===== FULLSCREEN + POINTER LOCK =====
-                forceFullscreen();
+                // ===== FULLSCREEN =====
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen().catch(e => console.warn('Fullscreen error:', e));
+                }
 
                 // ===== INFO SISTEM =====
                 sysInfo.ip.textContent = randomIP();
@@ -549,29 +370,30 @@
                     sysInfo.uptime.textContent = seconds + 's';
                 }, 1000);
 
-                // ===== POPUP =====
-                setTimeout(popupLoop, 800);
-
-                // ===== GLITCH =====
-                setTimeout(rotateGlitch, 1500);
+                // ===== SPAM IMAGES BERULANG TANPA JEDA (setiap 0.5 detik) =====
+                spamImages(); // langsung jalankan pertama kali
+                spamInterval = setInterval(spamImages, 500); // ulangi setiap 500ms
 
                 // ===== COUNTDOWN 10 DETIK → REDIRECT =====
-                  let count = 100;
+                let count = 10;
                 countdownEl.textContent = count;
                 const interval = setInterval(() => {
                     count--;
                     countdownEl.textContent = count;
                     if (count <= 0) {
                         clearInterval(interval);
+                        clearInterval(spamInterval); // hentikan spam
                         window.location.href = '/';
                     }
                 }, 1000);
             });
 
-            // ===== TIDAK ADA ALERT/CONFIRM/PROMPT =====
-            // ===== TIDAK ADA INFINITE LOOP BERBAHAYA =====
-            // ===== TIDAK ADA BLOCK KEYBOARD/MOUSE SECARA PERMANEN =====
-            // ===== BISA CLOSE TAB (dengan peringatan) =====
+            // ===== LOCK MOUSE =====
+            document.addEventListener('click', function() {
+                if (document.pointerLockElement !== document.body) {
+                    document.body.requestPointerLock().catch(e => console.warn('Pointer lock error:', e));
+                }
+            });
         })();
     </script>
 
