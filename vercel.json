@@ -8,7 +8,6 @@
     { "src": "script.js", "use": "@vercel/static" },
     { "src": "analytics-tracker.js", "use": "@vercel/static" },
     { "src": "bio-link/index.html", "use": "@vercel/static" },
-
     { "src": "googleda2d21a3857f78a7.html", "use": "@vercel/static" }
   ],
   "routes": [
