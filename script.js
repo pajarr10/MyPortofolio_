@@ -223,32 +223,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ============ 11. CONTACT FORM ============ */
-const contactForm = document.getElementById('contactForm');
-contactForm.addEventListener('submit', e => {
-  e.preventDefault();
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const message = document.getElementById('message').value.trim();
+  const contactForm = document.getElementById('contactForm');
+  contactForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
 
-  if (!name || !email || !message) return;
+    if (!name || !email || !message) return;
 
-  // Kirim via Email
-  const subject = encodeURIComponent(`Pesan dari ${name}`);
-  const body = encodeURIComponent(
-    `Halo Fajar,\n\nNama: ${name}\nEmail: ${email}\n\nPesan:\n${message}`
-  );
-  window.location.href = `mailto:fajaarr1001@gmail.com?subject=${subject}&body=${body}`;
+    // Kirim via Email
+    const subject = encodeURIComponent(`Pesan dari ${name}`);
+    const body = encodeURIComponent(
+      `Halo Fajar,\n\nNama: ${name}\nEmail: ${email}\n\nPesan:\n${message}`
+    );
+    window.location.href = `mailto:fajaarr1001@gmail.com?subject=${subject}&body=${body}`;
 
-  // Feedback button
-  const btn = contactForm.querySelector('button[type="submit"]');
-  const original = btn.innerHTML;
-  btn.innerHTML = '<svg class="icon"><use href="#i-check"/></svg> Pesan Terkirim!';
-  btn.style.background = 'var(--green)';
-  btn.style.color = 'var(--ink)';
-  contactForm.reset();
-  setTimeout(() => {
-    btn.innerHTML = original;
-    btn.style.background = '';
-    btn.style.color = '';
-  }, 3000);
+    // Feedback button
+    const btn = contactForm.querySelector('button[type="submit"]');
+    const original = btn.innerHTML;
+    btn.innerHTML = '<svg class="icon"><use href="#i-check"/></svg> Pesan Terkirim!';
+    btn.style.background = 'var(--green)';
+    btn.style.color = 'var(--ink)';
+    contactForm.reset();
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 3000);
+  });
+
 });
